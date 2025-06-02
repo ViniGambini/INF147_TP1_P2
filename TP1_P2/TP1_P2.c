@@ -1,6 +1,10 @@
 //=========================================================//
 // 	TP1_P2.c : Deuxième partie du TP1                      //
-//  Vincent G.											   //
+// Par Vincent G. et Renaud L.                             //
+// Créé le 12 mai 2025                                     //
+//                                                         //
+// 								                           //
+//                                                         //
 //=========================================================//
 
 #include <assert.h>
@@ -12,7 +16,7 @@
 //                     LES CONSTANTES                      //
 //=========================================================//
 
-#define MODE_TEST 0 // 1 = main des tests, 0 = main des parties 1 ou 2
+#define MODE_TEST 0     // 1 = main des tests, 0 = main des parties 1 ou 2
 #define MODE_PARTIE1 1  // 1 = Partie 1, 0 = Partie 2
 #define MODE_MACRO 1    // 1 = active les macros, 0 = active les fonctions
 
@@ -159,6 +163,7 @@ int main(void) {
 	//Permute 2 bits (nbr_validation) de fois
 	for (i = 0; i < MAX_ITER_P1; i++) {
 		etat_gen_ions = permuter_bits(etat_gen_ions);
+		assert(test_surchauffe_gen(etat_gen_ions));
 
 		//Enlever le commentaire ci-dessous pour voir chaque permutation
 		//voir_bits(etat_gen_ions);
@@ -190,7 +195,7 @@ int main(void) {
 	voir_bits(etat_gen_ions);
 
 	
-	for (nb_tests = 0, nb_tests < NB_TESTS; nb_tests++) {
+	for (nb_tests = 0; nb_tests < NB_TESTS; nb_tests++) {
 		// Boucle principale
 		for (nb_passages = 0; nb_passages < MAX_ITER; nb_passages++) {
 
@@ -277,26 +282,6 @@ int principe1(unsigned int etat_gen) {
 	}
 	return 1;
 }
-void assert_principe1(void) {
-
-	// Test plusiseurs cas différent pour s'assurer que tout fonctionne bien
-	unsigned int bin = 42;
-	assert(principe1(bin) == 1);
-	bin = 0b00011010110110;
-	assert(principe1(bin) == 1);
-	bin = 0b110111001101101;
-	assert(principe1(bin) == 0);
-	bin = 0b11111111111111111111;
-	assert(principe1(bin) == 0);
-	bin = 0b0000000000000000000001;
-	assert(principe1(bin) == 1);
-	bin = 0b0000000000000000000011;
-	assert(principe1(bin) == 1);
-	bin = 0b0000000000000000000111;
-	assert(principe1(bin) == 0);
-
-	printf("principe1() : OK\n");
-}
 
 //=========================================================
 /*
@@ -329,18 +314,6 @@ unsigned int get_bits_dispo(unsigned int etat_gen) {
 
 	return bits_possible;
 }
-void test_get_bits_dispo(void) {
-	// Validation manuelle pour les bits possibles
-	printf("%s\n%s%d\n%s",
-		"     get_bits_dispo() : Verification manuelle",
-		" Nombre de generateur : ", N,
-		"        Etat_gen_ions : ");
-	unsigned int etat_gen_ions = 0b0011001001000101101011001;
-	voir_bits(etat_gen_ions);
-	printf("         Bit_possible : ");
-	voir_bits(get_bits_dispo(etat_gen_ions));
-
-}
 
 //=========================================================
 /*
@@ -366,23 +339,6 @@ int choix_alea_bit1(unsigned int bit_possible) {
 		}
 	}
 	return ordre;
-}
-void assert_choix_alea_bit1(void) {
-
-	// test si 0 bit possible
-	assert(choix_alea_bit1(0) == -1);
-
-	int resultat = 0;
-	const int nbr_test = 20;
-
-	// test la sélection aléatoire 20 fois
-	for (int i = 0; i < nbr_test; i++) {
-		resultat = choix_alea_bit1(0b000110010010010110);
-		//printf("%d\n", test);
-		assert(resultat == 1 || 2 || 4 || 7 || 10 || 13 || 14);
-	}
-
-	printf("    choix_alea_bit1() : OK\n");
 }
 
 //=========================================================
@@ -481,16 +437,6 @@ int valider_etatK(unsigned int etat_gen) {
 	return 1;
 	
 }
-void assert_valider_etatK(void) {
-	unsigned int etat_test = 0;
-
-	etat_test = init_gen();
-	assert(valider_etatK(etat_test) == 1);
-
-	etat_test = set_bit(etat_test, 31);
-	assert(valider_etatK(etat_test) == 0);
-	
-}
 
 //=========================================================
 /*
@@ -506,23 +452,6 @@ int valider_bris(unsigned int etat_gen, unsigned int etat_bris) {
 	else {
 		return 0;
 	}
-}
-void assert_valider_bris(void) {
-	unsigned int var1 = 0b10001110100100;
-	unsigned int var2 = 0b01100001000000;
-	assert(valider_bris(var1, var2) == 1);
-
-	var1 = 0b10001110100100;
-	var2 = 0b01101001000000;
-	assert(valider_bris(var1, var2) == 0);
-
-	var1 = 0b010001110100100;
-	var2 = 0b101110001011111;
-	assert(valider_bris(var1, var2) == 0);
-
-	var1 = 0b010001110100100;
-	var2 = 0b101110001011011;
-	assert(valider_bris(var1, var2) == 1);
 }
 
 //=========================================================
@@ -633,6 +562,93 @@ unsigned int permuter_bits2(unsigned int *etat_gen, unsigned int etat_bris) {
 	}
 
 	return 1;
+}
+
+
+//=========================================================
+void assert_principe1(void) {
+
+	// Test plusiseurs cas différent pour s'assurer que tout fonctionne bien
+	unsigned int bin = 42;
+	assert(principe1(bin) == 1);
+	bin = 0b00011010110110;
+	assert(principe1(bin) == 1);
+	bin = 0b110111001101101;
+	assert(principe1(bin) == 0);
+	bin = 0b11111111111111111111;
+	assert(principe1(bin) == 0);
+	bin = 0b0000000000000000000001;
+	assert(principe1(bin) == 1);
+	bin = 0b0000000000000000000011;
+	assert(principe1(bin) == 1);
+	bin = 0b0000000000000000000111;
+	assert(principe1(bin) == 0);
+
+	printf("principe1() : OK\n");
+}
+
+//=========================================================
+void test_get_bits_dispo(void) {
+	// Validation manuelle pour les bits possibles
+	printf("%s\n%s%d\n%s",
+		"     get_bits_dispo() : Verification manuelle",
+		" Nombre de generateur : ", N,
+		"        Etat_gen_ions : ");
+	unsigned int etat_gen_ions = 0b0011001001000101101011001;
+	voir_bits(etat_gen_ions);
+	printf("         Bit_possible : ");
+	voir_bits(get_bits_dispo(etat_gen_ions));
+
+}
+
+//=========================================================
+void assert_choix_alea_bit1(void) {
+
+	// test si 0 bit possible
+	assert(choix_alea_bit1(0) == -1);
+
+	int resultat = 0;
+	const int nbr_test = 20;
+
+	// test la sélection aléatoire 20 fois
+	for (int i = 0; i < nbr_test; i++) {
+		resultat = choix_alea_bit1(0b000110010010010110);
+		//printf("%d\n", test);
+		assert(resultat == 1 || 2 || 4 || 7 || 10 || 13 || 14);
+	}
+
+	printf("    choix_alea_bit1() : OK\n");
+}
+
+//=========================================================
+void assert_valider_etatK(void) {
+	unsigned int etat_test = 0;
+
+	etat_test = init_gen();
+	assert(valider_etatK(etat_test) == 1);
+
+	etat_test = set_bit(etat_test, 31);
+	assert(valider_etatK(etat_test) == 0);
+
+}
+
+//=========================================================
+void assert_valider_bris(void) {
+	unsigned int var1 = 0b10001110100100;
+	unsigned int var2 = 0b01100001000000;
+	assert(valider_bris(var1, var2) == 1);
+
+	var1 = 0b10001110100100;
+	var2 = 0b01101001000000;
+	assert(valider_bris(var1, var2) == 0);
+
+	var1 = 0b010001110100100;
+	var2 = 0b101110001011111;
+	assert(valider_bris(var1, var2) == 0);
+
+	var1 = 0b010001110100100;
+	var2 = 0b101110001011011;
+	assert(valider_bris(var1, var2) == 1);
 }
 
 /*=========================================================*/
