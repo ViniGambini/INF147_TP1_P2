@@ -185,92 +185,114 @@ int main(void)
 
 	int tab_essais[NB_TESTS];
 
-	for (int test = 0; test < NB_TESTS; test++)
-	{
+	int min, max;
+
+	unsigned int etat_gen_ions;
+
+	unsigned int bris_gen_ions;
+
+	int nb_passages = 0;
 
 
+	//Compteur du nombre d'itération
+	int nb_tests = 0;
 
 
-		srand_sys();
+	//assert_valider_etatK();
+	//assert_valider_bris();
 
-		unsigned int etat_gen_ions = 0; // État des générateurs
-		unsigned int bris_gen_ions = 0; // État des bris
-		int nb_passages = 0;   //Compteur du nombre d'itération
-		int nb_tests = 0;
+	
 
+	/*printf("N : %d\nK : %d\n%s", N, K,
+		"Bits genere avec init_gen() : ");
+	voir_bits(etat_gen_ions);*/
 
-		assert_valider_etatK();
-		assert_valider_bris();
+	//Boucle permettant 100 iterations de la boucle principale
+	for (nb_tests = 0; nb_tests < NB_TESTS; nb_tests++) {
 
-		etat_gen_ions = init_gen(); // Initialise les générateurs
+		etat_gen_ions = init_gen();
 
-		printf("N : %d\nK : %d\n%s", N, K,
-			"Bits genere avec init_gen() : ");
-		voir_bits(etat_gen_ions);
+		bris_gen_ions = 0;
 
+		
+		// Boucle principale
+		for (nb_passages = 0; nb_passages < MAX_ITER_P2; nb_passages++) {
 
-		for (nb_tests = 0; nb_tests < NB_TESTS; nb_tests++) {
-			// Boucle principale
-			for (nb_passages = 0; nb_passages < MAX_ITER_P1; nb_passages++) {
-
-				if (permuter_bits2(&etat_gen_ions, bris_gen_ions) == 0) {
-					break;
-				}
-
-				if (gestion_bris(&etat_gen_ions, &bris_gen_ions) == 0)
-					break;
-
-
-				// Affiche des données tous les 100 itérations
-				/*if (nb_passages % 100 == 0) {
-					printf("%s%d\n%s",
-						"Nombre d'iterations  : ", nb_passages,
-						"Etat des generateurs : ");
-					voir_bits(etat_gen_ions);
-					printf("Etat des bris        : ");
-					voir_bits(bris_gen_ions);
-					printf("\n");
-				}*/
-
-				// Valide le principe 1
-				if (principe1(etat_gen_ions) == 0)
-					break;
-				// Valide K
-				if (valider_etatK(etat_gen_ions) == 0)
-					break;
-				// Valide les bris
-				if (valider_bris(etat_gen_ions, bris_gen_ions) == 0)
-					break;
-
-				// Répare les génrateurs périodiquement
-				if (nb_passages % PERIODE_REPARATION == 0)
-					bris_gen_ions = 0;
-
+			if (permuter_bits2(&etat_gen_ions, bris_gen_ions) == 0) {
+				break;
 			}
 
-			// Affiche le nombre d'itération
-			printf("\n%s%d\n%s", "Nombre d'iteration   : ", nb_passages,
-				"Etat des generateurs : ");
-			voir_bits(etat_gen_ions);
-			printf("Etat des bris        : ");
-			voir_bits(bris_gen_ions);
+			if (gestion_bris(&etat_gen_ions, &bris_gen_ions) == 0)
+				break;
 
-			tab_essais[test] = nb_passages;
-			if (test < 10)
-			{
-				printf(" %i : Arret apres %i passages\n", test, nb_passages);
-			}
-			else
-				printf("%i : Arret apres %i passages\n", test, nb_passages);
+
+			// Affiche des données tous les 100 itérations
+			/*if (nb_passages % 100 == 0) {
+				printf("%s%d\n%s",
+					"Nombre d'iterations  : ", nb_passages,
+					"Etat des generateurs : ");
+				voir_bits(etat_gen_ions);
+				printf("Etat des bris        : ");
+				voir_bits(bris_gen_ions);
+				printf("\n");
+			}*/
+
+			// Valide le principe 1
+			if (principe1(etat_gen_ions) == 0)
+				break;
+			// Valide K
+			if (valider_etatK(etat_gen_ions) == 0)
+				break;
+			// Valide les bris
+			if (valider_bris(etat_gen_ions, bris_gen_ions) == 0)
+				break;
+
+			// Répare les génrateurs périodiquement
+			if (nb_passages % PERIODE_REPARATION == 0)
+				bris_gen_ions = 0;
+
+			//Incremente le nombre de passage 
+			//nb_passages++;
+
 		}
 
-		// Fonction moyenne
+		// Affiche le nombre d'itération
+		/*printf("\n%s%d\n%s", "Nombre d'iteration   : ", nb_passages,
+			"Etat des generateurs : ");
+		voir_bits(etat_gen_ions);
+		printf("Etat des bris        : ");
+		voir_bits(bris_gen_ions);*/
+
+		tab_essais[nb_tests] = nb_passages;
+		if (nb_tests < 10)
+		{
+			printf(" %i : Arret apres %i passages\n", nb_tests, nb_passages);
+		}
+		else
+			printf("%i : Arret apres %i passages\n", nb_tests, nb_passages);
 	}
 
+	// Fonction moyenne
+
+
+	double moyenne = moyenne_tests(tab_essais, NB_TESTS, &min, &max);
+
+	printf("\n*======== RESULTATS DE LA SIMULATION ========*\n");
+	printf("Constantes utilisees:\n");
+	printf("N = %d\n", N);
+	printf("K = %d\n", K);
+	printf("PROB_BRIS = %.3f\n", PROB_BRIS);
+	printf("PERIODE_REPARATION = %d\n", PERIODE_REPARATION);
+	printf("MAX_ITER = %d\n", MAX_ITER_P2);
+	printf("NB_TESTS = %d\n", NB_TESTS);
+	printf("\nStatistiques sur %d essais:\n", NB_TESTS);
+	printf("Moyenne: %.2f iterations\n", moyenne);
+	printf("Minimum: %d iterations\n", min);
+	printf("Maximum: %d iterations\n", max);
 	system("pause");
 	return EXIT_SUCCESS;
-
 }
+
 #endif
 /*=========================================================*/
 
