@@ -9,7 +9,7 @@
 #include<math.h>
 #include<time.h>
 
-#define INT_BIT	(sizeof(int) * 8)
+#define INT_BIT	(sizeof(int) * 8) // Taille d'un integer
 
 //=========================================================
 /*
