@@ -22,6 +22,7 @@
 #define MODE_TEST 0 // 1 = main des tests, 0 = main des parties 1 ou 2
 #define MODE_PARTIE1 0  // 1 = Partie 1, 0 = Partie 2
 #define MODE_MACRO 0    // 1 = active les macros, 0 = active les fonctions
+#define MODE_AFFICHE 0 // 1 = active l'affichage calculant la moyenne de 100 iterations 
 
 
 #define MAX_ITER_P1 100 // Itération max de la partie 1
@@ -265,10 +266,9 @@ int main(void)
 	}
 
 	// Fonction moyenne
-
-
 	double moyenne = moyenne_tests(tab_essais, NB_TESTS, &min, &max);
 
+	//Affiche les resultats de la simulation
 	printf("\n*======== RESULTATS DE LA SIMULATION ========*\n");
 	printf("Constantes utilisees:\n");
 	printf("N = %d\n", N);
@@ -620,7 +620,7 @@ double moyenne_tests(int tab_essais[], int nb_tests, int* min, int* max)
 	}
 
 	return (double)somme / nb_tests;
-
+}
 
 //=========================================================
 void assert_principe1(void) {
