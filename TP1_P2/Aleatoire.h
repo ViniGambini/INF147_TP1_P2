@@ -51,3 +51,11 @@ double randf_bornes(double b1, double b2);
 					 INITIALISER PLUS D'UNE FOIS LE GÉNÉRATEUR
 */
 void srand_sys(void);
+
+/*=========================================================*/
+/*
+	Sort un entier de 32 bits aleatoires
+	PARAMETRE : Aucun
+	RETOUR : l'entier de 32 bits aleatoires
+*/
+unsigned int valeur_aleatoire(void);

@@ -1,5 +1,6 @@
 
 #include "Aleatoire.h"
+#include "Fonctions_bits.h"
 
 //=============================================================================
 double randf(void) {
@@ -38,4 +39,21 @@ void srand_sys(void) {
 	srand(secondes);
 	// qui par tradition est suivi d'un premier appel au generateur
 	tmp = rand();
+}
+
+
+unsigned int valeur_aleatoire(void)
+{
+	
+	unsigned int val_alea = 0;
+
+	for (int i = 0; i < 32; i++)
+	{
+		if (randi(2) == 0)
+		
+			val_alea = clear_bit(val_alea, i);
+		else
+			val_alea = set_bit(val_alea, i);
+	}
+	return val_alea;
 }
