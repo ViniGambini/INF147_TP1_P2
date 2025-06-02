@@ -623,7 +623,7 @@ double moyenne_tests(int tab_essais[], int nb_tests, int* min, int* max)
 	}
 
 	return (double)somme / nb_tests;
-
+}
 
 //=========================================================
 void assert_principe1(void) {
