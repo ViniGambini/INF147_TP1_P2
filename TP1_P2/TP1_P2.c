@@ -304,9 +304,6 @@ unsigned int get_bits_dispo(unsigned int etat_gen) {
 			if (principe1(etat_gen)) {
 				bits_possible = set_bit(bits_possible, i);
 			}
-			else {
-				bits_possible = clear_bit(bits_possible, i);
-			}
 
 			etat_gen = clear_bit(etat_gen, i); // remet le bit à 0
 		}
@@ -349,9 +346,9 @@ int choix_alea_bit1(unsigned int bit_possible) {
 */
 unsigned int init_gen(void) {
 
-	unsigned int config_initiale = 0;
-	unsigned int bits_dispo = 0;
-	int ordre = 0;
+	unsigned int config_initiale = 0; // Variable à remplir pour les générateurs
+	unsigned int bits_dispo = 0; // Variable temporaire pour les bits dispo
+	int ordre = 0; // Variable temporaire pour contenir l'ordre d'un bit
 
 	// Choisi K bits aléatoirement à activer tout en respectant le principe 1
 	for (int i = 0; i < K; i++) {
@@ -476,9 +473,6 @@ unsigned int get_bits_dispo2(unsigned int etat_gen, unsigned int etat_bris) {
 			if (principe1(etat_gen)) {
 				bits_possible = set_bit(bits_possible, i);
 			}
-			else {
-				bits_possible = clear_bit(bits_possible, i);
-			}
 
 			etat_gen = clear_bit(etat_gen, i); // remet le bit à 0
 		}
@@ -571,16 +565,22 @@ void assert_principe1(void) {
 	// Test plusiseurs cas différent pour s'assurer que tout fonctionne bien
 	unsigned int bin = 42;
 	assert(principe1(bin) == 1);
+
 	bin = 0b00011010110110;
 	assert(principe1(bin) == 1);
+
 	bin = 0b110111001101101;
 	assert(principe1(bin) == 0);
+
 	bin = 0b11111111111111111111;
 	assert(principe1(bin) == 0);
+
 	bin = 0b0000000000000000000001;
 	assert(principe1(bin) == 1);
+
 	bin = 0b0000000000000000000011;
 	assert(principe1(bin) == 1);
+
 	bin = 0b0000000000000000000111;
 	assert(principe1(bin) == 0);
 
@@ -589,12 +589,14 @@ void assert_principe1(void) {
 
 //=========================================================
 void test_get_bits_dispo(void) {
+
+	unsigned int etat_gen_ions = 0b0011001001000101101011001;
+
 	// Validation manuelle pour les bits possibles
 	printf("%s\n%s%d\n%s",
 		"     get_bits_dispo() : Verification manuelle",
 		" Nombre de generateur : ", N,
 		"        Etat_gen_ions : ");
-	unsigned int etat_gen_ions = 0b0011001001000101101011001;
 	voir_bits(etat_gen_ions);
 	printf("         Bit_possible : ");
 	voir_bits(get_bits_dispo(etat_gen_ions));
@@ -614,7 +616,8 @@ void assert_choix_alea_bit1(void) {
 	for (int i = 0; i < nbr_test; i++) {
 		resultat = choix_alea_bit1(0b000110010010010110);
 		//printf("%d\n", test);
-		assert(resultat == 1 || 2 || 4 || 7 || 10 || 13 || 14);
+		assert(resultat == 1 || resultat == 2 || resultat == 4 || resultat == 7 ||\
+			   resultat == 10 || resultat == 13 || resultat == 14);
 	}
 
 	printf("    choix_alea_bit1() : OK\n");
