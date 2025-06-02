@@ -1,7 +1,11 @@
-//=========================================================//
-// 	TP1_P2.c : Deuxième partie du TP1                      //
-//  Vincent G.											   //
-//=========================================================//
+/********************************************************************/
+/* Fichier   : TP1 PARTIE 1                                         */
+/* Noms		 : Renaud Lamonde et Vincent Goulet						*/
+/* Date  de création : 12 mai 2025									*/
+/* Description :  Ce fichier contient les fonctions et leurs tests	*/
+/* unitaires permettant de vérifier les 6 principes imposés par		*/
+/* l'équipe d'ingénieurs de L'AEAC. 								*/
+/********************************************************************/
 
 #include <assert.h>
 #include "Aleatoire.h"
@@ -13,8 +17,8 @@
 //=========================================================//
 
 #define MODE_TEST 0 // 1 = main des tests, 0 = main des parties 1 ou 2
-#define MODE_PARTIE1 1  // 1 = Partie 1, 0 = Partie 2
-#define MODE_MACRO 1    // 1 = active les macros, 0 = active les fonctions
+#define MODE_PARTIE1 0  // 1 = Partie 1, 0 = Partie 2
+#define MODE_MACRO 0    // 1 = active les macros, 0 = active les fonctions
 
 #define MAX_ITER_P1 100 // Itération max de la partie 1
 #define MAX_ITER_P2 10000 // Itération maximum pour la partie 2
@@ -129,6 +133,9 @@ int gestion_bris(unsigned int *etat_gen, unsigned int *etat_bris);
 unsigned int permuter_bits2(unsigned int *etat_gen, unsigned int etat_bris);
 
 
+double moyenne_tests(int tab_essais[], int nb_tests, int* min, int* max);
+
+
 /*=========================================================*/
 /*=========================================================*/
 #if (MODE_TEST) 
@@ -171,77 +178,98 @@ int main(void) {
 	return EXIT_SUCCESS;
 }
 #else
-int main(void) {
+int main(void)
+{
+	//Initialisation du générateur aléatoire
 	srand_sys();
 
-	unsigned int etat_gen_ions = 0; // État des générateurs
-	unsigned int bris_gen_ions = 0; // État des bris
-	int nb_passages = 0;   //Compteur du nombre d'itération
-	int nb_tests = 0;
-	
+	int tab_essais[NB_TESTS];
 
-	assert_valider_etatK();
-	assert_valider_bris();
+	for (int test = 0; test < NB_TESTS; test++)
+	{
 
-	etat_gen_ions = init_gen(); // Initialise les générateurs
 
-	printf("N : %d\nK : %d\n%s", N, K,
-		"Bits genere avec init_gen() : ");
-	voir_bits(etat_gen_ions);
 
-	
-	for (nb_tests = 0, nb_tests < NB_TESTS; nb_tests++) {
-		// Boucle principale
-		for (nb_passages = 0; nb_passages < MAX_ITER; nb_passages++) {
 
-			if (permuter_bits2(&etat_gen_ions, bris_gen_ions) == 0) {
-				break;
+		srand_sys();
+
+		unsigned int etat_gen_ions = 0; // État des générateurs
+		unsigned int bris_gen_ions = 0; // État des bris
+		int nb_passages = 0;   //Compteur du nombre d'itération
+		int nb_tests = 0;
+
+
+		assert_valider_etatK();
+		assert_valider_bris();
+
+		etat_gen_ions = init_gen(); // Initialise les générateurs
+
+		printf("N : %d\nK : %d\n%s", N, K,
+			"Bits genere avec init_gen() : ");
+		voir_bits(etat_gen_ions);
+
+
+		for (nb_tests = 0; nb_tests < NB_TESTS; nb_tests++) {
+			// Boucle principale
+			for (nb_passages = 0; nb_passages < MAX_ITER_P1; nb_passages++) {
+
+				if (permuter_bits2(&etat_gen_ions, bris_gen_ions) == 0) {
+					break;
+				}
+
+				if (gestion_bris(&etat_gen_ions, &bris_gen_ions) == 0)
+					break;
+
+
+				// Affiche des données tous les 100 itérations
+				/*if (nb_passages % 100 == 0) {
+					printf("%s%d\n%s",
+						"Nombre d'iterations  : ", nb_passages,
+						"Etat des generateurs : ");
+					voir_bits(etat_gen_ions);
+					printf("Etat des bris        : ");
+					voir_bits(bris_gen_ions);
+					printf("\n");
+				}*/
+
+				// Valide le principe 1
+				if (principe1(etat_gen_ions) == 0)
+					break;
+				// Valide K
+				if (valider_etatK(etat_gen_ions) == 0)
+					break;
+				// Valide les bris
+				if (valider_bris(etat_gen_ions, bris_gen_ions) == 0)
+					break;
+
+				// Répare les génrateurs périodiquement
+				if (nb_passages % PERIODE_REPARATION == 0)
+					bris_gen_ions = 0;
+
 			}
 
-			if (gestion_bris(&etat_gen_ions, &bris_gen_ions) == 0)
-				break;
+			// Affiche le nombre d'itération
+			printf("\n%s%d\n%s", "Nombre d'iteration   : ", nb_passages,
+				"Etat des generateurs : ");
+			voir_bits(etat_gen_ions);
+			printf("Etat des bris        : ");
+			voir_bits(bris_gen_ions);
 
-
-			// Affiche des données tous les 100 itérations
-			/*if (nb_passages % 100 == 0) {
-				printf("%s%d\n%s",
-					"Nombre d'iterations  : ", nb_passages,
-					"Etat des generateurs : ");
-				voir_bits(etat_gen_ions);
-				printf("Etat des bris        : ");
-				voir_bits(bris_gen_ions);
-				printf("\n");
-			}*/
-
-			// Valide le principe 1
-			if (principe1(etat_gen_ions) == 0)
-				break;
-			// Valide K
-			if (valider_etatK(etat_gen_ions) == 0)
-				break;
-			// Valide les bris
-			if (valider_bris(etat_gen_ions, bris_gen_ions) == 0)
-				break;
-
-			// Répare les génrateurs périodiquement
-			if (nb_passages % PERIODE_REPARATION == 0)
-				bris_gen_ions = 0;
-
+			tab_essais[test] = nb_passages;
+			if (test < 10)
+			{
+				printf(" %i : Arret apres %i passages\n", test, nb_passages);
+			}
+			else
+				printf("%i : Arret apres %i passages\n", test, nb_passages);
 		}
 
-		// Affiche le nombre d'itération
-		printf("\n%s%d\n%s", "Nombre d'iteration   : ", nb_passages,
-			"Etat des generateurs : ");
-		voir_bits(etat_gen_ions);
-		printf("Etat des bris        : ");
-		voir_bits(bris_gen_ions);
-
+		// Fonction moyenne
 	}
-
-	// Fonction moyenne
 
 	system("pause");
 	return EXIT_SUCCESS;
+
 }
 #endif
 /*=========================================================*/
@@ -633,6 +661,31 @@ unsigned int permuter_bits2(unsigned int *etat_gen, unsigned int etat_bris) {
 	}
 
 	return 1;
+}
+
+//=========================================================
+/*
+	Permutation de deux générateur, en prennant en compte les générateurs brisés
+	PARAMETRE : tableau contenant les essais, le nombre de tests a faire, 
+				la valeur minimale et la valeur maximale
+	RETOUR : moyenne des test totaux
+*/
+double moyenne_tests(int tab_essais[], int nb_tests, int* min, int* max)
+{
+	if (nb_tests <= 0) return 0;
+
+	*min = tab_essais[0];
+	*max = tab_essais[0];
+	int somme = tab_essais[0];
+
+	for (int i = 0; i < nb_tests - 1; i++)
+	{
+		somme = tab_essais[i] + somme;
+		if (tab_essais[i] < *min) *min = tab_essais[i];
+		if (tab_essais[i] > *max) *max = tab_essais[i];
+	}
+
+	return (double)somme / nb_tests;
 }
 
 /*=========================================================*/
