@@ -17,7 +17,7 @@
 //=========================================================//
 
 #define MODE_TEST 0     // 1 = main des tests, 0 = main des parties 1 ou 2
-#define MODE_PARTIE1 1  // 1 = Partie 1, 0 = Partie 2
+#define MODE_PARTIE1 0  // 1 = Partie 1, 0 = Partie 2
 #define MODE_MACRO 1    // 1 = active les macros, 0 = active les fonctions
 
 #define MAX_ITER_P1 100 // Itération max de la partie 1
@@ -93,6 +93,7 @@ unsigned int permuter_bits(unsigned int etat_gen);
 */
 int valider_etatK(unsigned int etat_gen);
 
+// Tests pour la fonction valider_etat_K()
 void assert_valider_etatK(void);
 
 //=========================================================
@@ -103,6 +104,7 @@ void assert_valider_etatK(void);
 */
 int valider_bris(unsigned int etat_gen, unsigned int etat_bris);
 
+// Tests pour la fonction valider_bris()
 void assert_valider_bris(void);
 
 //=========================================================
@@ -179,8 +181,8 @@ int main(void) {
 int main(void) {
 	srand_sys();
 
-	unsigned int etat_gen_ions = 0; // État des générateurs
-	unsigned int bris_gen_ions = 0; // État des bris
+	unsigned int etat_gen_ions; // État des générateurs
+	unsigned int bris_gen_ions; // État des bris
 	int nb_passages = 0;   //Compteur du nombre d'itération
 	int nb_tests = 0;
 	
@@ -188,16 +190,17 @@ int main(void) {
 	assert_valider_etatK();
 	assert_valider_bris();
 
-	etat_gen_ions = init_gen(); // Initialise les générateurs
-
-	printf("N : %d\nK : %d\n%s", N, K,
-		"Bits genere avec init_gen() : ");
-	voir_bits(etat_gen_ions);
-
 	
 	for (nb_tests = 0; nb_tests < NB_TESTS; nb_tests++) {
+
+		etat_gen_ions = 0;
+		bris_gen_ions = 0; 
+
+
+		etat_gen_ions = init_gen(); // Initialise les générateurs
+	
 		// Boucle principale
-		for (nb_passages = 0; nb_passages < MAX_ITER; nb_passages++) {
+		for (nb_passages = 0; nb_passages < MAX_ITER_P2; nb_passages++) {
 
 			if (permuter_bits2(&etat_gen_ions, bris_gen_ions) == 0) {
 				break;

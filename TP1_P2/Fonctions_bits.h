@@ -24,7 +24,7 @@
 int get_bit(unsigned int nombre, int ordre);
 
 // c'est ici que viendra le développement de sa Macro
-#define GET_BIT(nombre, ordre)  (((nombre) & (1 << (ordre))) != 0)
+#define GET_BIT(nombre, ordre) (((nombre) & (1 << (ordre))) != 0)
 
 //c'est ici que viendra la déclaration de son test unitaire
 void test_macro_GET_BIT(void);
@@ -42,7 +42,7 @@ void test_macro_GET_BIT(void);
 unsigned int set_bit(unsigned int nombre, int ordre);
 
 // c'est ici que viendra le développement de sa Macro
-#define SET_BIT(nombre, ordre)   ..........
+#define SET_BIT(nombre, ordre) (((nombre) | (1 << (ordre))))
 
 //c'est ici que viendra la déclaration de son test unitaire
 void test_macro_SET_BIT(void);
@@ -60,7 +60,7 @@ void test_macro_SET_BIT(void);
 unsigned int clear_bit(unsigned int  nombre, int ordre);
 
 // c'est ici que viendra le développement de sa Macro
-#define CLEAR_BIT(nombre, ordre)  ..........
+#define CLEAR_BIT(nombre, ordre) (((nombre) & ~(1 << (ordre))))
 
 //c'est ici que viendra la déclaration de son test unitaire
 void test_macro_CLEAR_BIT(void);
@@ -79,7 +79,9 @@ void test_macro_CLEAR_BIT(void);
 unsigned int flip_bit(unsigned int  nombre, int ordre);
 
 // c'est ici que viendra le développement de sa Macro
-#define FLIP_BIT(nombre, ordre)    .......... 
+#define FLIP_BIT(nombre, ordre) (GET_BIT((nombre), (ordre)) ?\
+								 CLEAR_BIT((nombre), (ordre))\
+                                : SET_BIT((nombre), (ordre)))
 
 //c'est ici que viendra la déclaration de son test unitaire
 void test_macro_FLIP_BIT(void);
