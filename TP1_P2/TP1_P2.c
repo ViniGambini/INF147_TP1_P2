@@ -823,6 +823,8 @@ void assert_valider_etatK(void) {
 	
 	assert(valider_etatK(etat_test) == 0);
 
+	printf("      valider_etatK() : OK\n");
+
 }
 
 //=========================================================
@@ -842,6 +844,8 @@ void assert_valider_bris(void) {
 	var1 = 0b010001110100100;
 	var2 = 0b101110001011011;
 	assert(valider_bris(var1, var2) == 1);
+
+	printf("       valider_bris() : OK\n");
 
 }
 
