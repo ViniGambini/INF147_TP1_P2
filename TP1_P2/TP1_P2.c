@@ -20,7 +20,7 @@
 
 #define MODE_TEST 0 // 1 = main des tests, 0 = main des parties 1 ou 2
 #define MODE_PARTIE1 0  // 1 = Partie 1, 0 = Partie 2
-#define MODE_MACRO 0    // 1 = active les macros, 0 = active les fonctions
+#define MODE_MACRO 1    // 1 = active les macros, 0 = active les fonctions
 
 
 #define MAX_ITER_P1 100 // ItÃ©ration max de la partie 1
@@ -310,9 +310,15 @@ int principe1(unsigned int etat_gen) {
 	// VÃ©rifie trois bits cÃ´te Ã  cÃ´te
 	for (int i = 1; i < N - 1; i += 1) {
 
-		test *= get_bit(etat_gen, i - 1);
-		test *= get_bit(etat_gen, i);
-		test *= get_bit(etat_gen, i + 1);
+		#if(MODE_MACRO)
+			test *= GET_BIT(etat_gen, i - 1);
+			test *= GET_BIT(etat_gen, i);
+			test *= GET_BIT(etat_gen, i + 1);
+		#else
+			test *= get_bit(etat_gen, i - 1);
+			test *= get_bit(etat_gen, i);
+			test *= get_bit(etat_gen, i + 1);
+		#endif
 
 		// Si il y a trois 1
 		if (test == 1) {
@@ -333,20 +339,44 @@ int principe1(unsigned int etat_gen) {
 */
 unsigned int get_bits_dispo(unsigned int etat_gen) {
 	unsigned int bits_possible = 0;
+	unsigned int bit = 0;
 
 	// test chaque bit pour voir si le bit en question peut Ãªtre mis Ã  1
 	for (int i = 0; i < N; i += 1) {
 
+		#if(MODE_MACRO)
+			bit = GET_BIT(etat_gen, i);
+		#else
+			bit = get_bit(etat_gen, i);
+		#endif
+
 		// si le bit i est 0
-		if (get_bit(etat_gen, i) == 0) {
-			etat_gen = set_bit(etat_gen, i); //met le bit Ã  1
+		if (bit == 0) {
+
+			#if(MODE_MACRO)
+				etat_gen = SET_BIT(etat_gen, i); //met le bit Ã  1
+			#else
+				etat_gen = set_bit(etat_gen, i); //met le bit Ã  1
+			#endif
+			
 
 			// Test si la rÃ¨gle du principe 1 est respectÃ©e
 			if (principe1(etat_gen)) {
-				bits_possible = set_bit(bits_possible, i);
+
+				#if(MODE_MACRO)
+					bits_possible = SET_BIT(bits_possible, i);
+				#else
+					bits_possible = set_bit(bits_possible, i);
+				#endif
+
 			}
 
-			etat_gen = clear_bit(etat_gen, i); // remet le bit Ã  0
+			#if(MODE_MACRO)
+				etat_gen = CLEAR_BIT(etat_gen, i); // remet le bit Ã  0
+			#else
+				etat_gen = clear_bit(etat_gen, i); // remet le bit Ã  0
+			#endif
+			
 		}
 	}
 
@@ -373,7 +403,13 @@ int choix_alea_bit1(unsigned int bit_possible) {
 		// Choisi un bit alÃ©atoire dans les bits possibles
 		while (bit == 0) {
 			ordre = randi(N);
-			bit = get_bit(bit_possible, ordre);
+
+			#if(MODE_MACRO)
+				bit = GET_BIT(bit_possible, ordre);
+			#else
+				bit = get_bit(bit_possible, ordre);
+			#endif
+
 		}
 	}
 	return ordre;
@@ -400,7 +436,11 @@ unsigned int init_gen(void) {
 		//VÃ©rifie que l'ordre est bon
 		assert(ordre < N && ordre >= 0);
 
-		config_initiale = set_bit(config_initiale, ordre);
+		#if(MODE_MACRO)
+			config_initiale = SET_BIT(config_initiale, ordre);
+		#else
+			config_initiale = set_bit(config_initiale, ordre);
+		#endif
 
 	}
 
@@ -431,8 +471,14 @@ unsigned int permuter_bits(unsigned int etat_gen) {
 	assert(ordre_a_eteindre < N && ordre_a_eteindre >= 0);
 
 	//Ã©change les valeurs des 2 bits
-	etat_gen = flip_bit(etat_gen, ordre_a_eteindre);
-	etat_gen = flip_bit(etat_gen, ordre_a_allumer);
+	#if(MODE_MACRO)
+		etat_gen = FLIP_BIT(etat_gen, ordre_a_eteindre);
+		etat_gen = FLIP_BIT(etat_gen, ordre_a_allumer);
+	#else
+		etat_gen = flip_bit(etat_gen, ordre_a_eteindre);
+		etat_gen = flip_bit(etat_gen, ordre_a_allumer);
+	#endif
+	
 
 	//Validation du principe 1
 	assert(principe1(etat_gen) == 1);
@@ -448,6 +494,7 @@ unsigned int permuter_bits(unsigned int etat_gen) {
 */
 int valider_etatK(unsigned int etat_gen) {
 	int compteur_de_1 = 0;
+	int bit = 0;
 
 	// VÃ©rifie le principe 1
 	if (principe1(etat_gen) == 0) 
@@ -455,7 +502,14 @@ int valider_etatK(unsigned int etat_gen) {
 	
 	// Compte le nombre de gÃ©nÃ©rateur actif
 	for (int i = 0; i < N; i++) {
-		if (get_bit(etat_gen, i) == 1) {
+
+		#if(MODE_MACRO)
+			bit = GET_BIT(etat_gen, i);
+		#else
+			bit = get_bit(etat_gen, i);
+		#endif
+
+		if (bit == 1) {
 			compteur_de_1 += 1;
 		}
 	}
@@ -467,7 +521,14 @@ int valider_etatK(unsigned int etat_gen) {
 	
 	// VÃ©rifie les bit entre 31 et N
 	for (int i = 31; i >= N; i--) {
-		if (get_bit(etat_gen, i) == 1)
+
+		#if(MODE_MACRO)
+			bit = GET_BIT(etat_gen, i);
+		#else
+			bit = get_bit(etat_gen, i);
+		#endif
+
+		if (bit == 1)
 			return 0;
 	}
 
@@ -502,20 +563,46 @@ int valider_bris(unsigned int etat_gen, unsigned int etat_bris) {
 */
 unsigned int get_bits_dispo2(unsigned int etat_gen, unsigned int etat_bris) {
 	unsigned int bits_possible = 0;
+	unsigned int bit1 = 0;
+	unsigned int bit2 = 0;
 
 	// test chaque bit pour voir si le bit en question peut Ãªtre mis Ã  1
 	for (int i = 0; i < N; i += 1) {
 
+		#if(MODE_MACRO)
+			bit1 = GET_BIT(etat_gen, i);
+			bit2 = GET_BIT(etat_bris, i);
+		#else
+			bit1 = get_bit(etat_gen, i);
+			bit2 = get_bit(etat_bris, i);
+		#endif
+
 		// si le bit i est 0
-		if (get_bit(etat_gen, i) == 0 && get_bit(etat_bris, i) == 0) {
-			etat_gen = set_bit(etat_gen, i); //met le bit Ã  1
+		if (bit1 == 0 && bit2 == 0) {
+
+			#if(MODE_MACRO)
+				etat_gen = SET_BIT(etat_gen, i); //met le bit Ã  1
+			#else
+				etat_gen = set_bit(etat_gen, i); //met le bit Ã  1
+			#endif
+			
 
 			// Test si la rÃ¨gle du principe 1 est respectÃ©e
 			if (principe1(etat_gen)) {
-				bits_possible = set_bit(bits_possible, i);
+
+				#if(MODE_MACRO)
+					bits_possible = SET_BIT(bits_possible, i);
+				#else
+					bits_possible = set_bit(bits_possible, i);
+				#endif
 			}
 
-			etat_gen = clear_bit(etat_gen, i); // remet le bit Ã  0
+			#if(MODE_MACRO)
+				etat_gen = CLEAR_BIT(etat_gen, i); // remet le bit Ã  0
+			#else
+				etat_gen = clear_bit(etat_gen, i); // remet le bit Ã  0
+			#endif
+			
 		}
 	}
 
@@ -532,24 +619,44 @@ unsigned int get_bits_dispo2(unsigned int etat_gen, unsigned int etat_bris) {
 int gestion_bris(unsigned int *etat_gen, unsigned int *etat_bris) {
 	
 	int ordre = 0;
+	unsigned int bit1 = 0;
+	unsigned int bit2 = 0;
 
 	// Pour chaque bit entre 0 et N-1
 	for (int i = 0; i < N; i++) {
 		
+		#if(MODE_MACRO)
+			bit1 = GET_BIT(*etat_gen, i);
+			bit2 = GET_BIT(*etat_bris, i);
+		#else
+			bit1 = get_bit(*etat_gen, i);
+			bit2 = get_bit(*etat_bris, i);
+		#endif
+
 		// Si le gÃ©nÃ©rateur est activÃ© et qu'il n'est pas brisÃ©
-		if (get_bit(*etat_gen, i) == 1 && get_bit(*etat_bris, i) == 0) {
+		if (bit1 == 1 && bit2 == 0) {
 			// ProbabilitÃ© de bris
 			if (randf() < PROB_BRIS) {
-				*etat_gen = clear_bit(*etat_gen, i);
-				*etat_bris = set_bit(*etat_bris, i);
 
+				#if(MODE_MACRO)
+					*etat_gen = CLEAR_BIT(*etat_gen, i);
+					*etat_bris = SET_BIT(*etat_bris, i);
+				#else
+					* etat_gen = clear_bit(*etat_gen, i);
+					*etat_bris = set_bit(*etat_bris, i);
+				#endif
+				
 				// Active un bit alÃ©atoire
 				ordre = choix_alea_bit1(get_bits_dispo2(*etat_gen, *etat_bris));
 				if (ordre < 0 || ordre >= N)
 					return 0;
 
-				*etat_gen = set_bit(*etat_gen, ordre);
-
+				#if(MODE_MACRO)
+					*etat_gen = SET_BIT(*etat_gen, ordre);
+				#else
+					* etat_gen = set_bit(*etat_gen, ordre);
+				#endif
+				
 				if (valider_bris(*etat_gen, *etat_bris) == 0)
 					return 0;
 			}
@@ -583,10 +690,16 @@ unsigned int permuter_bits2(unsigned int *etat_gen, unsigned int etat_bris) {
 		return 0;
 	}
 
-	//Ã©change les valeurs des 2 bits
-	*etat_gen = flip_bit(*etat_gen, ordre_a_eteindre);
-	*etat_gen = flip_bit(*etat_gen, ordre_a_allumer);
 
+	//Ã©change les valeurs des 2 bits
+	#if(MODE_MACRO)
+		*etat_gen = FLIP_BIT(*etat_gen, ordre_a_eteindre);
+		*etat_gen = FLIP_BIT(*etat_gen, ordre_a_allumer);
+	#else
+		*etat_gen = flip_bit(*etat_gen, ordre_a_eteindre);
+		*etat_gen = flip_bit(*etat_gen, ordre_a_allumer);
+	#endif
+	
 	//Validation du principe 1
 	if (principe1(*etat_gen) == 0) {
 		return 0;
@@ -623,7 +736,7 @@ double moyenne_tests(int tab_essais[], int nb_tests, int* min, int* max)
 	}
 
 	return (double)somme / nb_tests;
-
+}
 
 //=========================================================
 void assert_principe1(void) {
@@ -696,7 +809,12 @@ void assert_valider_etatK(void) {
 	etat_test = init_gen();
 	assert(valider_etatK(etat_test) == 1);
 
-	etat_test = set_bit(etat_test, 31);
+	#if(MODE_MACRO)
+		etat_test = SET_BIT(etat_test, 31);
+	#else
+		etat_test = set_bit(etat_test, 31);
+	#endif
+	
 	assert(valider_etatK(etat_test) == 0);
 
 }
