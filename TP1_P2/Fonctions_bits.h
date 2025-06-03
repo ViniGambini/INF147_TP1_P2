@@ -95,3 +95,5 @@ void test_macro_FLIP_BIT(void);
 	Les bits sont affichés du plus significatif au moins significatif (de 31->0)
 */
 void voir_bits(unsigned int nombre);
+
+
