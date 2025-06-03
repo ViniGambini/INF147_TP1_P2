@@ -19,9 +19,9 @@
 //=========================================================//
 
 
-#define MODE_TEST 1 // 1 = main des tests, 0 = main des parties 1 ou 2
-#define MODE_PARTIE1 1  // 1 = Partie 1, 0 = Partie 2
-#define MODE_MACRO 0    // 1 = active les macros, 0 = active les fonctions
+#define MODE_TEST 0 // 1 = main des tests, 0 = main des parties 1 ou 2
+#define MODE_PARTIE1 0  // 1 = Partie 1, 0 = Partie 2
+#define MODE_MACRO 1    // 1 = active les macros, 0 = active les fonctions
 #define MODE_AFFICHE 0 // 1 = active l'affichage calculant la moyenne de 100 iterations 
 
 
@@ -172,13 +172,13 @@ int main(void) {
 	etat_gen_ions = init_gen(); // Initialise les gÃ©nÃ©rateurs
 
 	printf("N : %d\nK : %d\n%s", N, K,
-		"  Bits genere avec init_gen() : ");
+		" Bits genere avec init_gen() : ");
 	voir_bits(etat_gen_ions);
 
 	//Permute 2 bits (nbr_validation) de fois
 	for (i = 0; i < MAX_ITER_P1; i++) {
 		etat_gen_ions = permuter_bits(etat_gen_ions);
-		assert(test_surchauffe_gen(etat_gen_ions));
+		assert(principe1(etat_gen_ions));
 
 		//Enlever le commentaire ci-dessous pour voir chaque permutation
 		//voir_bits(etat_gen_ions);
@@ -196,18 +196,14 @@ int main(void)
 	//Initialisation du génÃ©rateur alÃ©atoire
 	srand_sys();
 
-
-	int tab_essais[NB_TESTS];
-
+	// Création de variable pour la boucle de récolte de donnée
+	int tab_essais[NB_TESTS]; 
 	int min, max;
 
-	
-	unsigned int etat_gen_ions;
-
+	// Création de variables pour la boucle principale
+	unsigned int etat_gen_ions; 
 	unsigned int bris_gen_ions;
-
 	int nb_passages = 0;
-
 
 	//Compteur du nombre d'itÃ©ration
 	int nb_tests = 0;
@@ -216,20 +212,18 @@ int main(void)
 	for (nb_tests = 0; nb_tests < NB_TESTS; nb_tests++) {
 
 		etat_gen_ions = init_gen();
-
 		bris_gen_ions = 0;
-
 
 		// Boucle principale
 		for (nb_passages = 0; nb_passages < MAX_ITER_P2; nb_passages++) {
 
-			if (permuter_bits2(&etat_gen_ions, bris_gen_ions) == 0) {
+			// Permutation des bits
+			if (permuter_bits2(&etat_gen_ions, bris_gen_ions) == 0)
 				break;
-			}
 
+			// Gestion des bris
 			if (gestion_bris(&etat_gen_ions, &bris_gen_ions) == 0)
 				break;
-
 
 			// Affiche des donnÃ©es tous les 100 itÃ©rations
 			/*if (nb_passages % 100 == 0) {
@@ -245,14 +239,16 @@ int main(void)
 			// Valide le principe 1
 			if (principe1(etat_gen_ions) == 0)
 				break;
+
 			// Valide K
 			if (valider_etatK(etat_gen_ions) == 0)
 				break;
+
 			// Valide les bris
 			if (valider_bris(etat_gen_ions, bris_gen_ions) == 0)
 				break;
 
-			// RÃ©pare les gÃ©nrateurs pÃ©riodiquement
+			// Réparation des générateurs périodique
 			if (nb_passages % PERIODE_REPARATION == 0)
 				bris_gen_ions = 0;
 
@@ -287,9 +283,9 @@ int main(void)
 	printf("MAX_ITER = %d\n", MAX_ITER_P2);
 	printf("NB_TESTS = %d\n", NB_TESTS);
 	printf("\nStatistiques sur %d essais:\n", NB_TESTS);
-	printf("Moyenne: %.2f iterations\n", moyenne);
-	printf("Minimum: %d iterations\n", min);
-	printf("Maximum: %d iterations\n", max);
+	printf("  Moyenne: %.2f iterations\n", moyenne);
+	printf("  Minimum: %d iterations\n", min);
+	printf("  Maximum: %d iterations\n", max);
   
 	system("pause");
 	return EXIT_SUCCESS;
@@ -823,6 +819,8 @@ void assert_valider_etatK(void) {
 	
 	assert(valider_etatK(etat_test) == 0);
 
+	printf("      valider_etatK() : OK\n");
+
 }
 
 //=========================================================
@@ -842,6 +840,8 @@ void assert_valider_bris(void) {
 	var1 = 0b010001110100100;
 	var2 = 0b101110001011011;
 	assert(valider_bris(var1, var2) == 1);
+
+	printf("       valider_bris() : OK\n");
 
 }
 
