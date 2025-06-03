@@ -18,9 +18,10 @@
 //                     LES CONSTANTES                      //
 //=========================================================//
 
-#define MODE_TEST 0 // 1 = main des tests, 0 = main des parties 1 ou 2
-#define MODE_PARTIE1 0  // 1 = Partie 1, 0 = Partie 2
+#define MODE_TEST 1 // 1 = main des tests, 0 = main des parties 1 ou 2
+#define MODE_PARTIE1 1  // 1 = Partie 1, 0 = Partie 2
 #define MODE_MACRO 0    // 1 = active les macros, 0 = active les fonctions
+#define MODE_AFFICHE 0 // 1 = active l'affichage calculant la moyenne de 100 iterations 
 
 
 #define MAX_ITER_P1 100 // ItÃ©ration max de la partie 1
@@ -152,6 +153,10 @@ int main(void) {
 	assert_choix_alea_bit1();
 	assert_valider_etatK();
 	assert_valider_bris();
+	test_macro_CLEAR_BIT();
+	test_macro_FLIP_BIT();
+	test_macro_GET_BIT();
+	test_macro_SET_BIT();
 
 }
 #elif(MODE_PARTIE1)
@@ -194,7 +199,7 @@ int main(void)
 
 	int min, max;
 
-
+	
 	unsigned int etat_gen_ions;
 
 	unsigned int bris_gen_ions;
@@ -268,10 +273,9 @@ int main(void)
 	}
 
 	// Fonction moyenne
-
-
 	double moyenne = moyenne_tests(tab_essais, NB_TESTS, &min, &max);
 
+	//Affiche les resultats de la simulation
 	printf("\n*======== RESULTATS DE LA SIMULATION ========*\n");
 	printf("Constantes utilisees:\n");
 	printf("N = %d\n", N);
