@@ -266,12 +266,15 @@ int main(void)
 		voir_bits(bris_gen_ions);*/
 
 		tab_essais[nb_tests] = nb_passages;
-		if (nb_tests < 10)
-		{
-			printf(" %i : Arret apres %i passages\n", nb_tests, nb_passages);
-		}
-		else
-			printf("%i : Arret apres %i passages\n", nb_tests, nb_passages);
+
+		#if MODE_AFFICHE
+			if (nb_tests < 10)
+			{
+				printf(" %i : Arret apres %i passages\n", nb_tests, nb_passages);
+			}
+			else
+				printf("%i : Arret apres %i passages\n", nb_tests, nb_passages);
+		#endif
 	}
 
 	// Arrêt et lecture du temps du chronomètre
