@@ -1,5 +1,14 @@
 
 /*=========================================================*/
+//	Librairie Aleatoire.h
+//
+//
+/*=========================================================*/
+
+#if !defined ALEA_LIB_OK
+#define ALEA_LIB_OK 1
+
+/*=========================================================*/
 /*	la constante qui permet de désactiver certains
 	warnings achalants de Visual-Studio.
 */
@@ -59,3 +68,5 @@ void srand_sys(void);
 	RETOUR : l'entier de 32 bits aleatoires
 */
 unsigned int valeur_aleatoire(void);
+
+#endif

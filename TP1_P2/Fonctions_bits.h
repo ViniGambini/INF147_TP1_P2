@@ -1,5 +1,14 @@
 
 /*=========================================================*/
+//	Librairie Fonctions_bits.h
+//
+//
+/*=========================================================*/
+
+#if !defined FCT_BIT_LIB_OK
+#define FCT_BIT_LIB_OK 1
+
+/*=========================================================*/
 /*	la constante qui permet de désactiver certains
 	warnings achalants de Visual-Studio.
 */
@@ -99,3 +108,5 @@ void test_macro_CLEAR_BIT(void);
 //=========================================================
 //Test pour la macro et la fonction flip_bit()
 void test_macro_FLIP_BIT(void);
+
+#endif
