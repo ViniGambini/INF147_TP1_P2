@@ -12,6 +12,7 @@
 #include <assert.h>
 #include "Aleatoire.h"
 #include "Fonctions_bits.h"
+#include "Chrono.h"
 
 
 //=========================================================//
