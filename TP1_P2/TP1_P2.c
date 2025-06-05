@@ -292,8 +292,8 @@ int main(void)
 	printf("K = %d\n", K);
 	printf("PROB_BRIS = %.3f\n", PROB_BRIS);
 	printf("PERIODE_REPARATION = %d\n", PERIODE_REPARATION);
-	printf("MAX_ITER = %d\n", MAX_ITER_P2);
-	printf("NB_TESTS = %d\n", NB_TESTS);
+	//printf("MAX_ITER = %d\n", MAX_ITER_P2);
+	//printf("NB_TESTS = %d\n", NB_TESTS);
 	printf("\nTemps du chrono : %f secondes\n", temps);
 	printf("\nStatistiques sur %d essais:\n", NB_TESTS);
 	printf("  Moyenne: %.2f iterations\n", moyenne);
@@ -306,7 +306,6 @@ int main(void)
 
 #endif
 /*=========================================================*/
-
 
 
 //=========================================================//
