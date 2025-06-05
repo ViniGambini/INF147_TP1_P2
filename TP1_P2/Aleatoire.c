@@ -41,16 +41,16 @@ void srand_sys(void) {
 	tmp = rand();
 }
 
-
+//=========================================================
 unsigned int valeur_aleatoire(void)
 {
 	
-	unsigned int val_alea = 0;
+	unsigned int val_alea = 0; // crée une variable
 
+	// Bit par bit, choisi le niveau aléatoirement
 	for (int i = 0; i < 32; i++)
 	{
 		if (randi(2) == 0)
-		
 			val_alea = clear_bit(val_alea, i);
 		else
 			val_alea = set_bit(val_alea, i);

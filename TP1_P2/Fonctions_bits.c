@@ -50,6 +50,7 @@ void voir_bits(unsigned int nombre) {
 	printf("\n");		//affiche un ENTER après la fin de la boucle for()
 }
 
+//=========================================================
 void test_macro_GET_BIT(void) 
 {
 
@@ -66,6 +67,7 @@ void test_macro_GET_BIT(void)
 	printf("      macro_GET_BIT() : OK\n");
 }
 
+//=========================================================
 void test_macro_SET_BIT(void) {
 
 	unsigned int val = 0;
@@ -81,6 +83,7 @@ void test_macro_SET_BIT(void) {
 	printf("      macro_SET_BIT() : OK\n");
 }
 
+//=========================================================
 void test_macro_CLEAR_BIT(void) 
 {
 	
@@ -97,6 +100,7 @@ void test_macro_CLEAR_BIT(void)
 	printf("    macro_CLEAR_BIT() : OK\n");
 }
 
+//=========================================================
 void test_macro_FLIP_BIT(void) 
 {
 	unsigned int val = 0;

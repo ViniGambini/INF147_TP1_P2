@@ -4,7 +4,7 @@
 /* Noms		 : Renaud Lamonde et Vincent Goulet						*/
 /* Date  de crÃ©ation : 12 mai 2025									*/
 /* Description :  Ce fichier contient les fonctions et leurs tests	*/
-/* unitaires permettant de vÃ©rifier les 6 principes imposÃ©s par		*/
+/* unitaires permettant de vÃ©rifier les 6 principes imposÃ©s par	*/
 /* l'Ã©quipe d'ingÃ©nieurs de L'AEAC. 								*/
 /********************************************************************/
 
@@ -12,19 +12,17 @@
 #include <assert.h>
 #include "Aleatoire.h"
 #include "Fonctions_bits.h"
+#include "Chrono.h"
 
 
 //=========================================================//
 //                     LES CONSTANTES                      //
 //=========================================================//
 
-
 #define MODE_TEST 0 // 1 = main des tests, 0 = main des parties 1 ou 2
 #define MODE_PARTIE1 0  // 1 = Partie 1, 0 = Partie 2
-#define MODE_MACRO 1    // 1 = active les macros, 0 = active les fonctions
+#define MODE_MACRO 0    // 1 = active les macros, 0 = active les fonctions
 #define MODE_AFFICHE 0 // 1 = active l'affichage calculant la moyenne de 100 iterations 
-
-
 
 #define MAX_ITER_P1 100 // ItÃ©ration max de la partie 1
 #define MAX_ITER_P2 10000 // ItÃ©ration maximum pour la partie 2
@@ -208,6 +206,12 @@ int main(void)
 	//Compteur du nombre d'itÃ©ration
 	int nb_tests = 0;
 
+	// Initialise et démarre le chronomètre
+	double temps = 0;
+	t_ptr_chrono chrono;
+	chrono = init_chrono();
+	demarrer_chrono(chrono);
+
 	//Boucle permettant 100 iterations de la boucle principale
 	for (nb_tests = 0; nb_tests < NB_TESTS; nb_tests++) {
 
@@ -270,6 +274,11 @@ int main(void)
 			printf("%i : Arret apres %i passages\n", nb_tests, nb_passages);
 	}
 
+	// Arrêt et lecture du temps du chronomètre
+	arreter_chrono(chrono);
+	temps = lire_chrono(chrono);
+	detruire_chrono(&chrono);
+
 	// Fonction moyenne
 	double moyenne = moyenne_tests(tab_essais, NB_TESTS, &min, &max);
 
@@ -282,6 +291,7 @@ int main(void)
 	printf("PERIODE_REPARATION = %d\n", PERIODE_REPARATION);
 	printf("MAX_ITER = %d\n", MAX_ITER_P2);
 	printf("NB_TESTS = %d\n", NB_TESTS);
+	printf("\nTemps du chrono : %f secondes\n", temps);
 	printf("\nStatistiques sur %d essais:\n", NB_TESTS);
 	printf("  Moyenne: %.2f iterations\n", moyenne);
 	printf("  Minimum: %d iterations\n", min);
