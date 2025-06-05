@@ -21,17 +21,17 @@
 
 #define MODE_TEST 0 // 1 = main des tests, 0 = main des parties 1 ou 2
 #define MODE_PARTIE1 0  // 1 = Partie 1, 0 = Partie 2
-#define MODE_MACRO 0    // 1 = active les macros, 0 = active les fonctions
+#define MODE_MACRO 1    // 1 = active les macros, 0 = active les fonctions
 #define MODE_AFFICHE 0 // 1 = active l'affichage calculant la moyenne de 100 iterations 
 
 #define MAX_ITER_P1 100 // ItÃ©ration max de la partie 1
 #define MAX_ITER_P2 10000 // ItÃ©ration maximum pour la partie 2
-#define PROB_BRIS 0.021 // ProbabilitÃ© de bris entre 0.0 et 1.0
-#define PERIODE_REPARATION 30 // RÃ©pare les gÃ©nÃ©rateur tous les X itÃ©rations
+#define PROB_BRIS 0.025 // ProbabilitÃ© de bris entre 0.0 et 1.0
+#define PERIODE_REPARATION 28 // RÃ©pare les gÃ©nÃ©rateur tous les X itÃ©rations
 #define NB_TESTS 100 // Nombre de test effectuer pour obtenir la moyenne d'itÃ©ration
 
 #define N 30 //18 <= N <= 32
-#define K 12 //0,28 * N <= K <= 0,48 * N
+#define K 11 //0,28 * N <= K <= 0,48 * N
 
 
 //=========================================================//
