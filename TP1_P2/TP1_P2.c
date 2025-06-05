@@ -4,7 +4,7 @@
 /* Noms		 : Renaud Lamonde et Vincent Goulet						*/
 /* Date  de crÃ©ation : 12 mai 2025									*/
 /* Description :  Ce fichier contient les fonctions et leurs tests	*/
-/* unitaires permettant de vÃ©rifier les 6 principes imposÃ©s par		*/
+/* unitaires permettant de vÃ©rifier les 6 principes imposÃ©s par	*/
 /* l'Ã©quipe d'ingÃ©nieurs de L'AEAC. 								*/
 /********************************************************************/
 
@@ -23,8 +23,6 @@
 #define MODE_PARTIE1 0  // 1 = Partie 1, 0 = Partie 2
 #define MODE_MACRO 1    // 1 = active les macros, 0 = active les fonctions
 #define MODE_AFFICHE 0 // 1 = active l'affichage calculant la moyenne de 100 iterations 
-
-
 
 #define MAX_ITER_P1 100 // ItÃ©ration max de la partie 1
 #define MAX_ITER_P2 10000 // ItÃ©ration maximum pour la partie 2
