@@ -5,9 +5,6 @@
 //
 /*=========================================================*/
 
-#if !defined ALEA_LIB_OK
-#define ALEA_LIB_OK 1
-
 /*=========================================================*/
 /*	la constante qui permet de désactiver certains
 	warnings achalants de Visual-Studio.
@@ -17,6 +14,10 @@
 #include<stdlib.h>
 #include<math.h>
 #include<time.h>
+
+// Déclarer juste 1x
+#ifndef ALEA_LIB_OK
+#define ALEA_LIB_OK 1
 
 #define EPSILON (0.0000000001)    //la différence réelle minimale
 
