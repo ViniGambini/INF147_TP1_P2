@@ -1,5 +1,11 @@
 
 /*=========================================================*/
+//	Librairie Aleatoire.h
+//
+//
+/*=========================================================*/
+
+/*=========================================================*/
 /*	la constante qui permet de désactiver certains
 	warnings achalants de Visual-Studio.
 */
@@ -8,6 +14,10 @@
 #include<stdlib.h>
 #include<math.h>
 #include<time.h>
+
+// Déclarer juste 1x
+#ifndef ALEA_LIB_OK
+#define ALEA_LIB_OK 1
 
 #define EPSILON (0.0000000001)    //la différence réelle minimale
 
@@ -51,3 +61,13 @@ double randf_bornes(double b1, double b2);
 					 INITIALISER PLUS D'UNE FOIS LE GÉNÉRATEUR
 */
 void srand_sys(void);
+
+/*=========================================================*/
+/*
+	Sort un entier de 32 bits aleatoires
+	PARAMETRE : Aucun
+	RETOUR : l'entier de 32 bits aleatoires
+*/
+unsigned int valeur_aleatoire(void);
+
+#endif

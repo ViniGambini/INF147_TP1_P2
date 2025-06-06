@@ -1,31 +1,41 @@
-//=========================================================//
-// 	TP1_P2.c : Deuxi�me partie du TP1                      //
+﻿//=========================================================//
+// 	TP1_P2.c : DeuxiÃ¨me partie du TP1                      //
 //  Vincent G.											   //
 //=========================================================//
+
+/********************************************************************/
+/* Fichier   : TP1 PARTIE 1                                         */
+/* Noms		 : Renaud Lamonde et Vincent Goulet						*/
+/* Date  de crÃ©ation : 12 mai 2025									*/
+/* Description :  Ce fichier contient les fonctions et leurs tests	*/
+/* unitaires permettant de vÃ©rifier les 6 principes imposÃ©s par	*/
+/* l'Ã©quipe d'ingÃ©nieurs de L'AEAC. 								*/
+/********************************************************************/
+
 
 #include <assert.h>
 #include "Aleatoire.h"
 #include "Fonctions_bits.h"
+#include "Chrono.h"
 
 
 //=========================================================//
 //                     LES CONSTANTES                      //
 //=========================================================//
 
-#define MODE_TEST 0 // 1 = main des tests, 0 = main des parties 1 ou 2
+#define MODE_TEST 0     // 1 = main des tests, 0 = main des parties 1 ou 2
 #define MODE_PARTIE1 0  // 1 = Partie 1, 0 = Partie 2
-#define MODE_MACRO 0    // 1 = active les macros, 0 = active les fonctions
-#define MODE_AFFICHE 0
+#define MODE_MACRO 1    // 1 = active les macros, 0 = active les fonctions
+#define MODE_AFFICHE 0  // 1 = active l'affichage calculant la moyenne de 100 iterations 
 
-
-#define MAX_ITER_P1 100 // It�ration max de la partie 1
-#define MAX_ITER_P2 10000 // It�ration maximum pour la partie 2
-#define PROB_BRIS 0.021 // Probabilit� de bris entre 0.0 et 1.0
-#define PERIODE_REPARATION 30 // R�pare les g�n�rateur tous les X it�rations
-#define NB_TESTS 100 // Nombre de test effectuer pour obtenir la moyenne d'it�ration
+#define MAX_ITER_P1 100   // Itération max de la partie 1
+#define MAX_ITER_P2 10000 // ItÃ©ration maximum pour la partie 2
+#define PROB_BRIS 0.025   // Probabilité de bris entre 0.0 et 1.0
+#define PERIODE_REPARATION 28 // Répare les générateur tous les X itérations
+#define NB_TESTS 100      // Nombre de test effectuer pour obtenir la moyenne d'itération
 
 #define N 30 //18 <= N <= 32
-#define K 12 //0,28 * N <= K <= 0,48 * N
+#define K 11 //0,28 * N <= K <= 0,48 * N
 
 
 //=========================================================//
@@ -34,8 +44,8 @@
 
 //=========================================================
 /*
-	V�rifie qu'il n'y a pas 3 bits � 1 de suite
-	PARAMETRE : etat_gen, nombre binaire a v�rifier
+	VÃ©rifie qu'il n'y a pas 3 bits Ã  1 de suite
+	PARAMETRE : etat_gen, nombre binaire a vÃ©rifier
 	RETOUR : 1 si tout est beau, 0 si 3 bits ou plus se suivent
 */
 int principe1(unsigned int etat_gen);
@@ -45,10 +55,10 @@ void assert_principe1(void);
 
 //=========================================================
 /*
-	Trouve les endroits o� un g�n�rateur peut �tre activ�
-	PARAMETRE : etat_gen, nombre binaire a v�rifier
-	RETOUR : nombre binaire o� un 1 repr�sente les endroits ou
-			 un g�n�rateur peut �tre activ�
+	Trouve les endroits oÃ¹ un gÃ©nÃ©rateur peut Ãªtre activÃ©
+	PARAMETRE : etat_gen, nombre binaire a vÃ©rifier
+	RETOUR : nombre binaire oÃ¹ un 1 reprÃ©sente les endroits ou
+			 un gÃ©nÃ©rateur peut Ãªtre activÃ©
 */
 unsigned int get_bits_dispo(unsigned int etat_gen);
 
@@ -57,9 +67,9 @@ void test_get_bits_dispo(void);
 
 //=========================================================
 /*
-	Choisi al�atoirement un endroit o� activer un g�n�rateur
-	PARAMETRE : bit_possible, chaine de bit ou un 1 repr�sente
-				l� o� un g�n�rateur peut �tre activ�
+	Choisi alÃ©atoirement un endroit oÃ¹ activer un gÃ©nÃ©rateur
+	PARAMETRE : bit_possible, chaine de bit ou un 1 reprÃ©sente
+				là  où un générateur peut être activé
 	RETOUR : position du bit choisi (entre 0 et N-1)
 */
 int choix_alea_bit1(unsigned int bit_possible);
@@ -69,66 +79,77 @@ void assert_choix_alea_bit1(void);
 
 //=========================================================
 /*
-	Initialisation des g�n�rateur : active al�atoirement K g�n�rateurs
+	Initialisation des gÃ©nÃ©rateur : active alÃ©atoirement K gÃ©nÃ©rateurs
 	PARAMETRE : void
-	RETOUR : N bits avec K g�n�rateurs activ�s
+	RETOUR : N bits avec K gÃ©nÃ©rateurs activÃ©s
 */
 unsigned int init_gen(void);
 
 //=========================================================
 /*
-	Permutation de deux g�n�rateur, en active al�atoirement un et en d�sactive un autre
-	PARAMETRE : �tat des g�n�rateurs
-	RETOUR : �tat des g�n�rateur apr�s la permutation
+	Permutation de deux gÃ©nÃ©rateur, en active alÃ©atoirement un et en dÃ©sactive un autre
+	PARAMETRE : Ã©tat des gÃ©nÃ©rateurs
+	RETOUR : Ã©tat des gÃ©nÃ©rateur aprÃ¨s la permutation
 */
 unsigned int permuter_bits(unsigned int etat_gen);
 
 //=========================================================
 /*
-	Valider qu'il y a exactement K g�n�rateur d'activ�
-	PARAMETRE : �tat des g�n�rateurs
-	RETOUR : 1 si tout est beau, 0 s'il y a un probl�me
+	Valider qu'il y a exactement K gÃ©nÃ©rateur d'activÃ©
+	PARAMETRE : Ã©tat des gÃ©nÃ©rateurs
+	RETOUR : 1 si tout est beau, 0 s'il y a un problÃ¨me
 */
 int valider_etatK(unsigned int etat_gen);
 
+// Tests pour la fonction valider_etat_K()
 void assert_valider_etatK(void);
 
 //=========================================================
 /*
-	Valider qu'il n'y a pas de g�n�rateur bris� qui sont activ�
-	PARAMETRE : �tat des g�n�rateurs, �tat des bris
-	RETOUR : 1 si tout est beau, 0 s'il y a un probl�me
+	Valider qu'il n'y a pas de gÃ©nÃ©rateur brisÃ© qui sont activÃ©
+	PARAMETRE : Ã©tat des gÃ©nÃ©rateurs, Ã©tat des bris
+	RETOUR : 1 si tout est beau, 0 s'il y a un problÃ¨me
 */
 int valider_bris(unsigned int etat_gen, unsigned int etat_bris);
 
+// Tests pour la fonction valider_bris()
 void assert_valider_bris(void);
 
 //=========================================================
 /*
-	Trouve les endroits o� un g�n�rateur peut �tre activ�, en consid�rant les bris
-	PARAMETRE : etat_gen, nombre binaire a v�rifier
-				etat_bris, endroit o� les g�n�rateur sont bris�s
-	RETOUR : nombre binaire o� un 1 repr�sente les endroits o� un 
-			 g�n�rateur peut �tre activ�
+	Trouve les endroits oÃ¹ un gÃ©nÃ©rateur peut Ãªtre activÃ©, en considÃ©rant les bris
+	PARAMETRE : etat_gen, nombre binaire a vÃ©rifier
+				etat_bris, endroit oÃ¹ les gÃ©nÃ©rateur sont brisÃ©s
+	RETOUR : nombre binaire oÃ¹ un 1 reprÃ©sente les endroits oÃ¹ un 
+			 gÃ©nÃ©rateur peut Ãªtre activÃ©
 */
 unsigned int get_bits_dispo2(unsigned int etat_gen, unsigned int etat_bris);
 
 //=========================================================
 /*
-	G�n�re al�atoirement des bris de g�n�rateur
-	PARAMETRE : etat_gen, nombre binaire a v�rifier
-				etat_bris, endroit o� les g�n�rateur sont bris�s
-	RETOUR : 1 si tout est beau, 0 si il y a un �chec
+	GÃ©nÃ¨re alÃ©atoirement des bris de gÃ©nÃ©rateur
+	PARAMETRE : etat_gen, nombre binaire a vÃ©rifier
+				etat_bris, endroit oÃ¹ les gÃ©nÃ©rateur sont brisÃ©s
+	RETOUR : 1 si tout est beau, 0 si il y a un Ã©chec
 */
 int gestion_bris(unsigned int *etat_gen, unsigned int *etat_bris);
 
 //=========================================================
 /*
-	Permutation de deux g�n�rateur, en prennant en compte les g�n�rateurs bris�s
-	PARAMETRE : �tat des g�n�rateurs, �tat des bris
-	RETOUR : �tat des g�n�rateur apr�s la permutation
+	Permutation de deux gÃ©nÃ©rateur, en prennant en compte les gÃ©nÃ©rateurs brisÃ©s
+	PARAMETRE : Ã©tat des gÃ©nÃ©rateurs, Ã©tat des bris
+	RETOUR : Ã©tat des gÃ©nÃ©rateur aprÃ¨s la permutation
 */
 unsigned int permuter_bits2(unsigned int *etat_gen, unsigned int etat_bris);
+
+//=========================================================
+/*
+	Fonction de traitement des donnÃ©es dans le tableau
+	PARAMETRE : tableau contenant les essais, le nombre de tests Ã  faire,
+				la valeur minimale et la valeur maximale
+	RETOUR : moyenne des test totaux
+*/
+double moyenne_tests(int tab_essais[], int nb_tests, int* min, int* max);
 
 
 /*=========================================================*/
@@ -142,25 +163,30 @@ int main(void) {
 	assert_choix_alea_bit1();
 	assert_valider_etatK();
 	assert_valider_bris();
+	test_macro_CLEAR_BIT();
+	test_macro_FLIP_BIT();
+	test_macro_GET_BIT();
+	test_macro_SET_BIT();
 
 }
 #elif(MODE_PARTIE1)
 
 int main(void) {
 
-	unsigned int etat_gen_ions = 0; // �tat des g�n�rateurs
+	unsigned int etat_gen_ions = 0; // état des générateurs
 	int i = 0;
 
 
-	etat_gen_ions = init_gen(); // Initialise les g�n�rateurs
+	etat_gen_ions = init_gen(); // Initialise les gÃ©nÃ©rateurs
 
 	printf("N : %d\nK : %d\n%s", N, K,
-		"  Bits genere avec init_gen() : ");
+		" Bits genere avec init_gen() : ");
 	voir_bits(etat_gen_ions);
 
 	//Permute 2 bits (nbr_validation) de fois
 	for (i = 0; i < MAX_ITER_P1; i++) {
 		etat_gen_ions = permuter_bits(etat_gen_ions);
+		assert(principe1(etat_gen_ions));
 
 		//Enlever le commentaire ci-dessous pour voir chaque permutation
 		//voir_bits(etat_gen_ions);
@@ -173,38 +199,50 @@ int main(void) {
 	return EXIT_SUCCESS;
 }
 #else
-int main(void) {
+int main(void)
+{
+	//Initialisation du générateur aléatoire
 	srand_sys();
 
-	unsigned int etat_gen_ions = 0; // �tat des g�n�rateurs
-	unsigned int bris_gen_ions = 0; // �tat des bris
-	int nb_passages = 0;   //Compteur du nombre d'it�ration
+	// Création de variable pour la boucle de récolte de donnée
+	int tab_essais[NB_TESTS]; 
+	int min, max;
+
+	// CrÃ©ation de variables pour la boucle principale
+	unsigned int etat_gen_ions; 
+	unsigned int bris_gen_ions;
+	int nb_passages = 0;
+
+	//Compteur du nombre d'itération
 	int nb_tests = 0;
-	
 
-	assert_valider_etatK();
-	assert_valider_bris();
+	// Initialise et démarre le chronomètre
+	double temps = 0;
+	t_ptr_chrono chrono;
+	chrono = init_chrono();
+	demarrer_chrono(chrono);
 
-	etat_gen_ions = init_gen(); // Initialise les g�n�rateurs
+	//Boucle permettant 100 iterations de la boucle principale
+	for (nb_tests = 0; nb_tests < NB_TESTS; nb_tests++) {
 
-	printf("N : %d\nK : %d\n%s", N, K,
-		"Bits genere avec init_gen() : ");
-	voir_bits(etat_gen_ions);
+		etat_gen_ions = init_gen();
+		bris_gen_ions = 0;
 
-	
 	for (nb_tests = 0, nb_tests < NB_TESTS; nb_tests++) {
 		// Boucle principale
-		for (nb_passages = 0; nb_passages < MAX_ITER; nb_passages++) {
+		for (nb_passages = 0; nb_passages < MAX_ITER_P2; nb_passages++) {
 
-			if (permuter_bits2(&etat_gen_ions, bris_gen_ions) == 0) {
+			// Permutation des bits
+			if (permuter_bits2(&etat_gen_ions, bris_gen_ions) == 0)
 				break;
 			}
 
+			// Gestion des bris
 			if (gestion_bris(&etat_gen_ions, &bris_gen_ions) == 0)
 				break;
 
 
-			// Affiche des donn�es tous les 100 it�rations
+			// Affiche des donnÃ©es tous les 100 itÃ©rations
 			/*if (nb_passages % 100 == 0) {
 				printf("%s%d\n%s",
 					"Nombre d'iterations  : ", nb_passages,
@@ -218,57 +256,97 @@ int main(void) {
 			// Valide le principe 1
 			if (principe1(etat_gen_ions) == 0)
 				break;
+
 			// Valide K
 			if (valider_etatK(etat_gen_ions) == 0)
 				break;
+
 			// Valide les bris
 			if (valider_bris(etat_gen_ions, bris_gen_ions) == 0)
 				break;
 
-			// R�pare les g�nrateurs p�riodiquement
+			// Réparation des générateurs périodique
 			if (nb_passages % PERIODE_REPARATION == 0)
 				bris_gen_ions = 0;
 
 		}
 
-		// Affiche le nombre d'it�ration
-		printf("\n%s%d\n%s", "Nombre d'iteration   : ", nb_passages,
+		// Affiche le nombre d'itÃ©ration
+		/*printf("\n%s%d\n%s", "Nombre d'iteration   : ", nb_passages,
 			"Etat des generateurs : ");
 		voir_bits(etat_gen_ions);
 		printf("Etat des bris        : ");
-		voir_bits(bris_gen_ions);
+		voir_bits(bris_gen_ions);*/
 
+		tab_essais[nb_tests] = nb_passages;
+
+		#if MODE_AFFICHE
+			if (nb_tests < 10)
+			{
+				printf(" %i : Arret apres %i passages\n", nb_tests, nb_passages);
+			}
+			else
+				printf("%i : Arret apres %i passages\n", nb_tests, nb_passages);
+		#endif
 	}
 
-	// Fonction moyenne
+	// ArrÃªt et lecture du temps du chronomÃ¨tre
+	arreter_chrono(chrono);
+	temps = lire_chrono(chrono);
+	detruire_chrono(&chrono);
 
+	// Fonction moyenne
+	double moyenne = moyenne_tests(tab_essais, NB_TESTS, &min, &max);
+
+	//Affiche les resultats de la simulation
+	printf("\n*======== RESULTATS DE LA SIMULATION ========*\n");
+	printf("Constantes utilisees:\n");
+	printf("N = %d\n", N);
+	printf("K = %d\n", K);
+	printf("PROB_BRIS = %.3f\n", PROB_BRIS);
+	printf("PERIODE_REPARATION = %d\n", PERIODE_REPARATION);
+	//printf("MAX_ITER = %d\n", MAX_ITER_P2);
+	//printf("NB_TESTS = %d\n", NB_TESTS);
+	printf("\nTemps du chrono : %f secondes\n", temps);
+	printf("\nStatistiques sur %d essais:\n", NB_TESTS);
+	printf("  Moyenne: %.2f iterations\n", moyenne);
+	printf("  Minimum: %d iterations\n", min);
+	printf("  Maximum: %d iterations\n", max);
+  
 	system("pause");
 	return EXIT_SUCCESS;
 }
+
 #endif
 /*=========================================================*/
 
 
 
 //=========================================================//
-//		       D�FINITIONS DES FONCTIONS			       //
+//		       DÃFINITIONS DES FONCTIONS			       //
 //=========================================================//
 
 //=========================================================
 /*
-	V�rifie qu'il n'y a pas 3 bits � 1 de suite
-	PARAMETRE : etat_gen, nombre binaire a v�rifier
+	VÃ©rifie qu'il n'y a pas 3 bits Ã  1 de suite
+	PARAMETRE : etat_gen, nombre binaire a vÃ©rifier
 	RETOUR : 1 si tout est beau, 0 si 3 bits ou plus se suivent
 */
 int principe1(unsigned int etat_gen) {
 	int test = 1;
 
-	// V�rifie trois bits c�te � c�te
+	// VÃ©rifie trois bits cÃ´te Ã  cÃ´te
 	for (int i = 1; i < N - 1; i += 1) {
 
-		test *= get_bit(etat_gen, i - 1);
-		test *= get_bit(etat_gen, i);
-		test *= get_bit(etat_gen, i + 1);
+		#if(MODE_MACRO)
+			test *= GET_BIT(etat_gen, i - 1);
+			test *= GET_BIT(etat_gen, i);
+			test *= GET_BIT(etat_gen, i + 1);
+		#else
+			test *= get_bit(etat_gen, i - 1);
+			test *= get_bit(etat_gen, i);
+			test *= get_bit(etat_gen, i + 1);
+		#endif
 
 		// Si il y a trois 1
 		if (test == 1) {
@@ -281,7 +359,7 @@ int principe1(unsigned int etat_gen) {
 }
 void assert_principe1(void) {
 
-	// Test plusiseurs cas diff�rent pour s'assurer que tout fonctionne bien
+	// Test plusiseurs cas diffÃ©rent pour s'assurer que tout fonctionne bien
 	unsigned int bin = 42;
 	assert(principe1(bin) == 1);
 	bin = 0b00011010110110;
@@ -302,30 +380,54 @@ void assert_principe1(void) {
 
 //=========================================================
 /*
-	Trouve les endroits o� un g�n�rateur peut �tre activ�
-	PARAMETRE : etat_gen, nombre binaire a v�rifier
-	RETOUR : nombre binaire o� un 1 repr�sente les endroits ou
-			 un g�n�rateur peut �tre activ�
+	Trouve les endroits oÃ¹ un gÃ©nÃ©rateur peut Ãªtre activÃ©
+	PARAMETRE : etat_gen, nombre binaire a vÃ©rifier
+	RETOUR : nombre binaire oÃ¹ un 1 reprÃ©sente les endroits ou
+			 un gÃ©nÃ©rateur peut Ãªtre activÃ©
 */
 unsigned int get_bits_dispo(unsigned int etat_gen) {
 	unsigned int bits_possible = 0;
+	unsigned int bit = 0;
 
-	// test chaque bit pour voir si le bit en question peut �tre mis � 1
+	// test chaque bit pour voir si le bit en question peut Ãªtre mis Ã  1
 	for (int i = 0; i < N; i += 1) {
 
-		// si le bit i est 0
-		if (get_bit(etat_gen, i) == 0) {
-			etat_gen = set_bit(etat_gen, i); //met le bit � 1
+		#if(MODE_MACRO)
+			bit = GET_BIT(etat_gen, i);
+		#else
+			bit = get_bit(etat_gen, i);
+		#endif
 
-			// Test si la r�gle du principe 1 est respect�e
+		// si le bit i est 0
+		if (bit == 0) {
+
+			#if(MODE_MACRO)
+				etat_gen = SET_BIT(etat_gen, i); //met le bit à 1
+			#else
+				etat_gen = set_bit(etat_gen, i); //met le bit Ã  1
+			#endif
+			
+
+			// Test si la rÃ¨gle du principe 1 est respectÃ©e
 			if (principe1(etat_gen)) {
-				bits_possible = set_bit(bits_possible, i);
+
+				#if(MODE_MACRO)
+					bits_possible = SET_BIT(bits_possible, i);
+				#else
+					bits_possible = set_bit(bits_possible, i);
+				#endif
+
 			}
 			else {
 				bits_possible = clear_bit(bits_possible, i);
 			}
 
-			etat_gen = clear_bit(etat_gen, i); // remet le bit � 0
+			#if(MODE_MACRO)
+				etat_gen = CLEAR_BIT(etat_gen, i); // remet le bit Ã  0
+			#else
+				etat_gen = clear_bit(etat_gen, i); // remet le bit Ã  0
+			#endif
+			
 		}
 	}
 
@@ -346,9 +448,9 @@ void test_get_bits_dispo(void) {
 
 //=========================================================
 /*
-	Choisi al�atoirement un endroit o� activer un g�n�rateur
-	PARAMETRE : bit_possible, chaine de bit ou un 1 repr�sente
-				l� o� un g�n�rateur peut �tre activ�
+	Choisi alÃ©atoirement un endroit oÃ¹ activer un gÃ©nÃ©rateur
+	PARAMETRE : bit_possible, chaine de bit ou un 1 reprÃ©sente
+				lÃ  oÃ¹ un gÃ©nÃ©rateur peut Ãªtre activÃ©
 	RETOUR : position du bit choisi (entre 0 et N-1)
 */
 int choix_alea_bit1(unsigned int bit_possible) {
@@ -361,10 +463,16 @@ int choix_alea_bit1(unsigned int bit_possible) {
 		return -1;
 	}
 	else {
-		// Choisi un bit al�atoire dans les bits possibles
+		// Choisi un bit alÃ©atoire dans les bits possibles
 		while (bit == 0) {
 			ordre = randi(N);
-			bit = get_bit(bit_possible, ordre);
+
+			#if(MODE_MACRO)
+				bit = GET_BIT(bit_possible, ordre);
+			#else
+				bit = get_bit(bit_possible, ordre);
+			#endif
+
 		}
 	}
 	return ordre;
@@ -377,7 +485,7 @@ void assert_choix_alea_bit1(void) {
 	int resultat = 0;
 	const int nbr_test = 20;
 
-	// test la s�lection al�atoire 20 fois
+	// test la sÃ©lection alÃ©atoire 20 fois
 	for (int i = 0; i < nbr_test; i++) {
 		resultat = choix_alea_bit1(0b000110010010010110);
 		//printf("%d\n", test);
@@ -389,26 +497,30 @@ void assert_choix_alea_bit1(void) {
 
 //=========================================================
 /*
-	Initialisation des g�n�rateur : active al�atoirement K g�n�rateurs
+	Initialisation des gÃ©nÃ©rateur : active alÃ©atoirement K gÃ©nÃ©rateurs
 	PARAMETRE : void
-	RETOUR : N bits avec K g�n�rateurs activ�s
+	RETOUR : N bits avec K gÃ©nÃ©rateurs activÃ©s
 */
 unsigned int init_gen(void) {
 
-	unsigned int config_initiale = 0;
-	unsigned int bits_dispo = 0;
-	int ordre = 0;
+	unsigned int config_initiale = 0; // Variable à remplir pour les générateurs
+	unsigned int bits_dispo = 0; // Variable temporaire pour les bits dispo
+	int ordre = 0; // Variable temporaire pour contenir l'ordre d'un bit
 
-	// Choisi K bits al�atoirement � activer tout en respectant le principe 1
+	// Choisi K bits alÃ©atoirement Ã  activer tout en respectant le principe 1
 	for (int i = 0; i < K; i++) {
 		bits_dispo = get_bits_dispo(config_initiale);
 		ordre = choix_alea_bit1(bits_dispo);
 		//printf("%d ", ordre);
 
-		//V�rifie que l'ordre est bon
+		//VÃ©rifie que l'ordre est bon
 		assert(ordre < N && ordre >= 0);
 
-		config_initiale = set_bit(config_initiale, ordre);
+		#if(MODE_MACRO)
+			config_initiale = SET_BIT(config_initiale, ordre);
+		#else
+			config_initiale = set_bit(config_initiale, ordre);
+		#endif
 
 	}
 
@@ -420,27 +532,33 @@ unsigned int init_gen(void) {
 
 //=========================================================
 /*
-	Permutation de deux g�n�rateur, active al�atoirement 1 et en d�sactive un autre
-	PARAMETRE : �tat des g�n�rateurs
-	RETOUR : �tat des g�n�rateur apr�s la permutation
+	Permutation de deux gÃ©nÃ©rateur, active alÃ©atoirement 1 et en dÃ©sactive un autre
+	PARAMETRE : Ã©tat des gÃ©nÃ©rateurs
+	RETOUR : Ã©tat des gÃ©nÃ©rateur aprÃ¨s la permutation
 */
 unsigned int permuter_bits(unsigned int etat_gen) {
 
 	int ordre_a_eteindre = 0;
 	int ordre_a_allumer = 0;
 
-	//choisi al�atoirement un bit � �teindre
+	//choisi alÃ©atoirement un bit Ã  Ã©teindre
 	ordre_a_eteindre = choix_alea_bit1(etat_gen);
-	//Trouve les bits disponible et en choisi un al�atoirement pour l'allumer
+	//Trouve les bits disponible et en choisi un alÃ©atoirement pour l'allumer
 	ordre_a_allumer = choix_alea_bit1(get_bits_dispo(etat_gen));
 
-	//V�rification des ordres
+	//VÃ©rification des ordres
 	assert(ordre_a_allumer < N && ordre_a_allumer >= 0);
 	assert(ordre_a_eteindre < N && ordre_a_eteindre >= 0);
 
-	//�change les valeurs des 2 bits
-	etat_gen = flip_bit(etat_gen, ordre_a_eteindre);
-	etat_gen = flip_bit(etat_gen, ordre_a_allumer);
+	//Ã©change les valeurs des 2 bits
+	#if(MODE_MACRO)
+		etat_gen = FLIP_BIT(etat_gen, ordre_a_eteindre);
+		etat_gen = FLIP_BIT(etat_gen, ordre_a_allumer);
+	#else
+		etat_gen = flip_bit(etat_gen, ordre_a_eteindre);
+		etat_gen = flip_bit(etat_gen, ordre_a_allumer);
+	#endif
+	
 
 	//Validation du principe 1
 	assert(principe1(etat_gen) == 1);
@@ -450,32 +568,47 @@ unsigned int permuter_bits(unsigned int etat_gen) {
 
 //=========================================================
 /*
-	Valider qu'il y a exactement K g�n�rateur d'activ�
-	PARAMETRE : �tat des g�n�rateurs
-	RETOUR : 1 si tout est beau, 0 s'il y a un probl�me
+	Valider qu'il y a exactement K gÃ©nÃ©rateur d'activÃ©
+	PARAMETRE : Ã©tat des gÃ©nÃ©rateurs
+	RETOUR : 1 si tout est beau, 0 s'il y a un problÃ¨me
 */
 int valider_etatK(unsigned int etat_gen) {
 	int compteur_de_1 = 0;
+	int bit = 0;
 
-	// V�rifie le principe 1
+	// VÃ©rifie le principe 1
 	if (principe1(etat_gen) == 0) 
 		return 0;
 	
-	// Compte le nombre de g�n�rateur actif
+	// Compte le nombre de gÃ©nÃ©rateur actif
 	for (int i = 0; i < N; i++) {
-		if (get_bit(etat_gen, i) == 1) {
+
+		#if(MODE_MACRO)
+			bit = GET_BIT(etat_gen, i);
+		#else
+			bit = get_bit(etat_gen, i);
+		#endif
+
+		if (bit == 1) {
 			compteur_de_1 += 1;
 		}
 	}
-	//printf("Bit compte : %d\n", compteur_de_1); // Affiche le nbr de bit compt�
+	//printf("Bit compte : %d\n", compteur_de_1); // Affiche le nbr de bit comptÃ©
 
-	// V�rifie si compteur == K
+	// VÃ©rifie si compteur == K
 	if (compteur_de_1 != K) 
 		return 0;
 	
-	// V�rifie les bit entre 31 et N
+	// VÃ©rifie les bit entre 31 et N
 	for (int i = 31; i >= N; i--) {
-		if (get_bit(etat_gen, i) == 1)
+
+		#if(MODE_MACRO)
+			bit = GET_BIT(etat_gen, i);
+		#else
+			bit = get_bit(etat_gen, i);
+		#endif
+
+		if (bit == 1)
 			return 0;
 	}
 
@@ -496,12 +629,12 @@ void assert_valider_etatK(void) {
 
 //=========================================================
 /*
-	Valider qu'il n'y a pas de g�n�rateur bris� qui sont activ�
-	PARAMETRE : �tat des g�n�rateurs, �tat des bris
-	RETOUR : 1 si tout est beau, 0 s'il y a un probl�me
+	Valider qu'il n'y a pas de gÃ©nÃ©rateur brisÃ© qui sont activÃ©
+	PARAMETRE : Ã©tat des gÃ©nÃ©rateurs, Ã©tat des bris
+	RETOUR : 1 si tout est beau, 0 s'il y a un problÃ¨me
 */
 int valider_bris(unsigned int etat_gen, unsigned int etat_bris) {
-	// V�rifie si les 2 variables ont des bits commun
+	// VÃ©rifie si les 2 variables ont des bits commun
 	if ((etat_bris & etat_gen) == 0) {
 		return 1;
 	}
@@ -529,31 +662,54 @@ void assert_valider_bris(void) {
 
 //=========================================================
 /*
-	Trouve les endroits o� un g�n�rateur peut �tre activ�, en consid�rant les bris
-	PARAMETRE : etat_gen, nombre binaire a v�rifier
-				etat_bris, endroit o� les g�n�rateur sont bris�s
-	RETOUR : nombre binaire o� un 1 repr�sente les endroits o� un
-			 g�n�rateur peut �tre activ�
+	Trouve les endroits oÃ¹ un gÃ©nÃ©rateur peut Ãªtre activÃ©, en considÃ©rant les bris
+	PARAMETRE : etat_gen, nombre binaire a vÃ©rifier
+				etat_bris, endroit oÃ¹ les gÃ©nÃ©rateur sont brisÃ©s
+	RETOUR : nombre binaire oÃ¹ un 1 reprÃ©sente les endroits oÃ¹ un
+			 gÃ©nÃ©rateur peut Ãªtre activÃ©
 */
 unsigned int get_bits_dispo2(unsigned int etat_gen, unsigned int etat_bris) {
 	unsigned int bits_possible = 0;
+	unsigned int bit1 = 0;
+	unsigned int bit2 = 0;
 
-	// test chaque bit pour voir si le bit en question peut �tre mis � 1
+	// test chaque bit pour voir si le bit en question peut Ãªtre mis Ã  1
 	for (int i = 0; i < N; i += 1) {
 
+		#if(MODE_MACRO)
+			bit1 = GET_BIT(etat_gen, i);
+			bit2 = GET_BIT(etat_bris, i);
+		#else
+			bit1 = get_bit(etat_gen, i);
+			bit2 = get_bit(etat_bris, i);
+		#endif
+
 		// si le bit i est 0
-		if (get_bit(etat_gen, i) == 0 && get_bit(etat_bris, i) == 0) {
-			etat_gen = set_bit(etat_gen, i); //met le bit � 1
+		if (bit1 == 0 && bit2 == 0) {
 
-			// Test si la r�gle du principe 1 est respect�e
+			#if(MODE_MACRO)
+				etat_gen = SET_BIT(etat_gen, i); //met le bit à 1
+			#else
+				etat_gen = set_bit(etat_gen, i); //met le bit Ã  1
+			#endif
+			
+
+			// Test si la rÃ¨gle du principe 1 est respectÃ©e
 			if (principe1(etat_gen)) {
-				bits_possible = set_bit(bits_possible, i);
-			}
-			else {
-				bits_possible = clear_bit(bits_possible, i);
+
+				#if(MODE_MACRO)
+					bits_possible = SET_BIT(bits_possible, i);
+				#else
+					bits_possible = set_bit(bits_possible, i);
+				#endif
 			}
 
-			etat_gen = clear_bit(etat_gen, i); // remet le bit � 0
+			#if(MODE_MACRO)
+				etat_gen = CLEAR_BIT(etat_gen, i); // remet le bit Ã  0
+			#else
+				etat_gen = clear_bit(etat_gen, i); // remet le bit Ã  0
+			#endif
+			
 		}
 	}
 
@@ -562,32 +718,52 @@ unsigned int get_bits_dispo2(unsigned int etat_gen, unsigned int etat_bris) {
 
 //=========================================================
 /*
-	G�n�re al�atoirement des bris de g�n�rateur
-	PARAMETRE : etat_gen, nombre binaire a v�rifier
-				etat_bris, endroit o� les g�n�rateur sont bris�s
-	RETOUR : 1 si tout est beau, 0 si il y a un �chec
+	GÃ©nÃ¨re alÃ©atoirement des bris de gÃ©nÃ©rateur
+	PARAMETRE : etat_gen, nombre binaire à vérifier
+				etat_bris, endroit oÃ¹ les gÃ©nÃ©rateur sont brisÃ©s
+	RETOUR : 1 si tout est beau, 0 si il y a un Ã©chec
 */
 int gestion_bris(unsigned int *etat_gen, unsigned int *etat_bris) {
 	
 	int ordre = 0;
+	unsigned int bit1 = 0;
+	unsigned int bit2 = 0;
 
 	// Pour chaque bit entre 0 et N-1
 	for (int i = 0; i < N; i++) {
 		
-		// Si le g�n�rateur est activ� et qu'il n'est pas bris�
-		if (get_bit(*etat_gen, i) == 1 && get_bit(*etat_bris, i) == 0) {
-			// Probabilit� de bris
-			if (randf() < PROB_BRIS) {
-				*etat_gen = clear_bit(*etat_gen, i);
-				*etat_bris = set_bit(*etat_bris, i);
+		#if(MODE_MACRO)
+			bit1 = GET_BIT(*etat_gen, i);
+			bit2 = GET_BIT(*etat_bris, i);
+		#else
+			bit1 = get_bit(*etat_gen, i);
+			bit2 = get_bit(*etat_bris, i);
+		#endif
 
-				// Active un bit al�atoire
+		// Si le gÃ©nÃ©rateur est activÃ© et qu'il n'est pas brisÃ©
+		if (bit1 == 1 && bit2 == 0) {
+			// ProbabilitÃ© de bris
+			if (randf() < PROB_BRIS) {
+
+				#if(MODE_MACRO)
+					*etat_gen = CLEAR_BIT(*etat_gen, i);
+					*etat_bris = SET_BIT(*etat_bris, i);
+				#else
+					* etat_gen = clear_bit(*etat_gen, i);
+					*etat_bris = set_bit(*etat_bris, i);
+				#endif
+				
+				// Active un bit alÃ©atoire
 				ordre = choix_alea_bit1(get_bits_dispo2(*etat_gen, *etat_bris));
 				if (ordre < 0 || ordre >= N)
 					return 0;
 
-				*etat_gen = set_bit(*etat_gen, ordre);
-
+				#if(MODE_MACRO)
+					*etat_gen = SET_BIT(*etat_gen, ordre);
+				#else
+					* etat_gen = set_bit(*etat_gen, ordre);
+				#endif
+				
 				if (valider_bris(*etat_gen, *etat_bris) == 0)
 					return 0;
 			}
@@ -599,21 +775,21 @@ int gestion_bris(unsigned int *etat_gen, unsigned int *etat_bris) {
 
 //=========================================================
 /*
-	Permutation de deux g�n�rateur, en prennant en compte les g�n�rateurs bris�s
-	PARAMETRE : �tat des g�n�rateurs, �tat des bris
-	RETOUR : �tat des g�n�rateur apr�s la permutation
+	Permutation de deux gÃ©nÃ©rateur, en prennant en compte les gÃ©nÃ©rateurs brisÃ©s
+	PARAMETRE : Ã©tat des gÃ©nÃ©rateurs, Ã©tat des bris
+	RETOUR : Ã©tat des gÃ©nÃ©rateur aprÃ¨s la permutation
 */
 unsigned int permuter_bits2(unsigned int *etat_gen, unsigned int etat_bris) {
 
 	int ordre_a_eteindre = 0;
 	int ordre_a_allumer = 0;
 
-	//choisi al�atoirement un bit � �teindre
+	//choisi alÃ©atoirement un bit Ã  Ã©teindre
 	ordre_a_eteindre = choix_alea_bit1(*etat_gen);
-	//Trouve les bits disponible et en choisi un al�atoirement pour l'allumer
+	//Trouve les bits disponible et en choisi un alÃ©atoirement pour l'allumer
 	ordre_a_allumer = choix_alea_bit1(get_bits_dispo2(*etat_gen, etat_bris));
 
-	//V�rification des ordres
+	//VÃ©rification des ordres
 	if (ordre_a_allumer >= N || ordre_a_allumer < 0) {
 		return 0;
 	}
@@ -621,10 +797,16 @@ unsigned int permuter_bits2(unsigned int *etat_gen, unsigned int etat_bris) {
 		return 0;
 	}
 
-	//�change les valeurs des 2 bits
-	*etat_gen = flip_bit(*etat_gen, ordre_a_eteindre);
-	*etat_gen = flip_bit(*etat_gen, ordre_a_allumer);
 
+	//Ã©change les valeurs des 2 bits
+	#if(MODE_MACRO)
+		*etat_gen = FLIP_BIT(*etat_gen, ordre_a_eteindre);
+		*etat_gen = FLIP_BIT(*etat_gen, ordre_a_allumer);
+	#else
+		*etat_gen = flip_bit(*etat_gen, ordre_a_eteindre);
+		*etat_gen = flip_bit(*etat_gen, ordre_a_allumer);
+	#endif
+	
 	//Validation du principe 1
 	if (principe1(*etat_gen) == 0) {
 		return 0;
@@ -635,6 +817,137 @@ unsigned int permuter_bits2(unsigned int *etat_gen, unsigned int etat_bris) {
 	}
 
 	return 1;
+}
+
+
+//=========================================================
+/*
+	Fonction de traitement des donnÃ©es dans le tableau
+	PARAMETRE : tableau contenant les essais, le nombre de tests Ã  faire,
+				la valeur minimale et la valeur maximale
+	RETOUR : moyenne des test totaux
+*/
+double moyenne_tests(int tab_essais[], int nb_tests, int* min, int* max)
+{
+	if (nb_tests <= 0) return 0;
+
+	*min = tab_essais[0];
+	*max = tab_essais[0];
+	int somme = tab_essais[0];
+
+	for (int i = 0; i < nb_tests - 1; i++)
+	{
+		somme = tab_essais[i] + somme;
+		if (tab_essais[i] < *min) *min = tab_essais[i];
+		if (tab_essais[i] > *max) *max = tab_essais[i];
+	}
+
+	return (double)somme / nb_tests;
+}
+
+//=========================================================
+void assert_principe1(void) {
+
+	// Test plusiseurs cas diffÃ©rent pour s'assurer que tout fonctionne bien
+	unsigned int bin = 42;
+	assert(principe1(bin) == 1);
+
+	bin = 0b00011010110110;
+	assert(principe1(bin) == 1);
+
+	bin = 0b110111001101101;
+	assert(principe1(bin) == 0);
+
+	bin = 0b11111111111111111111;
+	assert(principe1(bin) == 0);
+
+	bin = 0b0000000000000000000001;
+	assert(principe1(bin) == 1);
+
+	bin = 0b0000000000000000000011;
+	assert(principe1(bin) == 1);
+
+	bin = 0b0000000000000000000111;
+	assert(principe1(bin) == 0);
+
+	printf("principe1() : OK\n");
+}
+
+//=========================================================
+void test_get_bits_dispo(void) {
+
+	unsigned int etat_gen_ions = 0b0011001001000101101011001;
+
+	// Validation manuelle pour les bits possibles
+	printf("%s\n%s%d\n%s",
+		"     get_bits_dispo() : Verification manuelle",
+		" Nombre de generateur : ", N,
+		"        Etat_gen_ions : ");
+	voir_bits(etat_gen_ions);
+	printf("         Bit_possible : ");
+	voir_bits(get_bits_dispo(etat_gen_ions));
+
+}
+
+//=========================================================
+void assert_choix_alea_bit1(void) {
+
+	// test si 0 bit possible
+	assert(choix_alea_bit1(0) == -1);
+
+	int resultat = 0;
+	const int nbr_test = 20;
+
+	// test la sÃ©lection alÃ©atoire 20 fois
+	for (int i = 0; i < nbr_test; i++) {
+		resultat = choix_alea_bit1(0b000110010010010110);
+		//printf("%d\n", test);
+		assert(resultat == 1 || resultat == 2 || resultat == 4 || resultat == 7 ||\
+			     resultat == 10 || resultat == 13 || resultat == 14);
+	}
+
+	printf("    choix_alea_bit1() : OK\n");
+}
+
+//=========================================================
+void assert_valider_etatK(void) {
+	unsigned int etat_test = 0;
+
+	etat_test = init_gen();
+	assert(valider_etatK(etat_test) == 1);
+
+	#if(MODE_MACRO)
+		etat_test = SET_BIT(etat_test, 31);
+	#else
+		etat_test = set_bit(etat_test, 31);
+	#endif
+	
+	assert(valider_etatK(etat_test) == 0);
+
+	printf("      valider_etatK() : OK\n");
+
+}
+
+//=========================================================
+void assert_valider_bris(void) {
+	unsigned int var1 = 0b10001110100100;
+	unsigned int var2 = 0b01100001000000;
+	assert(valider_bris(var1, var2) == 1);
+
+	var1 = 0b10001110100100;
+	var2 = 0b01101001000000;
+	assert(valider_bris(var1, var2) == 0);
+
+	var1 = 0b010001110100100;
+	var2 = 0b101110001011111;
+	assert(valider_bris(var1, var2) == 0);
+
+	var1 = 0b010001110100100;
+	var2 = 0b101110001011011;
+	assert(valider_bris(var1, var2) == 1);
+
+	printf("       valider_bris() : OK\n");
+
 }
 
 /*=========================================================*/

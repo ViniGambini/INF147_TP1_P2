@@ -128,11 +128,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Aleatoire.c" />
+    <ClCompile Include="Chrono.c" />
     <ClCompile Include="Fonctions_bits.c" />
     <ClCompile Include="TP1_P2.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aleatoire.h" />
+    <ClInclude Include="Chrono.h" />
     <ClInclude Include="Fonctions_bits.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

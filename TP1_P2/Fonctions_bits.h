@@ -1,5 +1,11 @@
 
 /*=========================================================*/
+//	Librairie Fonctions_bits.h
+//
+//
+/*=========================================================*/
+
+/*=========================================================*/
 /*	la constante qui permet de désactiver certains
 	warnings achalants de Visual-Studio.
 */
@@ -9,7 +15,11 @@
 #include<math.h>
 #include<time.h>
 
-#define INT_BIT	(sizeof(int) * 8)
+// Déclarer juste 1x
+#ifndef FCT_BIT_LIB_OK
+#define FCT_BIT_LIB_OK 1
+
+#define INT_BIT	(sizeof(int) * 8) // Taille d'un integer
 
 //=========================================================
 /*
@@ -23,8 +33,8 @@
 */
 int get_bit(unsigned int nombre, int ordre);
 
-// c'est ici que viendra le développement de sa Macro
-#define GET_BIT(nombre, ordre)  (((nombre) & (1 << (ordre))) != 0)
+// Macro de la fonction get_bit()
+#define GET_BIT(nombre, ordre) (((nombre) & (1 << (ordre))) != 0)
 
 //c'est ici que viendra la déclaration de son test unitaire
 void test_macro_GET_BIT(void);
@@ -41,8 +51,8 @@ void test_macro_GET_BIT(void);
 */
 unsigned int set_bit(unsigned int nombre, int ordre);
 
-// c'est ici que viendra le développement de sa Macro
-#define SET_BIT(nombre, ordre)   ..........
+// Macro de la fonction set_bit()
+#define SET_BIT(nombre, ordre) (((nombre) | (1 << (ordre))))
 
 //c'est ici que viendra la déclaration de son test unitaire
 void test_macro_SET_BIT(void);
@@ -59,11 +69,8 @@ void test_macro_SET_BIT(void);
 */
 unsigned int clear_bit(unsigned int  nombre, int ordre);
 
-// c'est ici que viendra le développement de sa Macro
-#define CLEAR_BIT(nombre, ordre)  ..........
-
-//c'est ici que viendra la déclaration de son test unitaire
-void test_macro_CLEAR_BIT(void);
+// Macro de la fonction clear_bit()
+#define CLEAR_BIT(nombre, ordre) (((nombre) & ~(1 << (ordre))))
 
 //=========================================================
 /*
@@ -78,11 +85,10 @@ void test_macro_CLEAR_BIT(void);
 */
 unsigned int flip_bit(unsigned int  nombre, int ordre);
 
-// c'est ici que viendra le développement de sa Macro
-#define FLIP_BIT(nombre, ordre)    .......... 
-
-//c'est ici que viendra la déclaration de son test unitaire
-void test_macro_FLIP_BIT(void);
+// Macro de la fonction flip_bit()
+#define FLIP_BIT(nombre, ordre) (GET_BIT((nombre), (ordre)) ?\
+								 CLEAR_BIT((nombre), (ordre))\
+                                : SET_BIT((nombre), (ordre)))
 
 //=========================================================
 /*
@@ -93,3 +99,21 @@ void test_macro_FLIP_BIT(void);
 	Les bits sont affichés du plus significatif au moins significatif (de 31->0)
 */
 void voir_bits(unsigned int nombre);
+
+//=========================================================
+//Test pour la macro et la fonction get_bit()
+void test_macro_GET_BIT(void);
+
+//=========================================================
+//Test pour la macro et la fonction set_bit()
+void test_macro_SET_BIT(void);
+
+//=========================================================
+//Test pour la macro et la fonction clear_bit()
+void test_macro_CLEAR_BIT(void);
+
+//=========================================================
+//Test pour la macro et la fonction flip_bit()
+void test_macro_FLIP_BIT(void);
+
+#endif

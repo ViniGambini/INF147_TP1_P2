@@ -1,5 +1,7 @@
 
 #include "Fonctions_bits.h"
+#include "Aleatoire.h"
+#include "assert.h"
 
 //=========================================================
 /* get_bit(): un test qui dit si un (and) entre la valeur reçue
@@ -46,4 +48,70 @@ void voir_bits(unsigned int nombre) {
 	for (int i = INT_BIT - 1; i > -1; i -= 1)
 		printf("%d", get_bit(nombre, i));
 	printf("\n");		//affiche un ENTER après la fin de la boucle for()
+}
+
+//=========================================================
+void test_macro_GET_BIT(void) 
+{
+
+	unsigned int val = 0;
+	int ordre = 0;
+
+	for (int i = 0; i < 30; i++)
+	{
+		val = valeur_aleatoire();
+		ordre = randi(32);
+		
+		assert(get_bit(val, ordre) == GET_BIT(val, ordre));
+	}
+	printf("      macro_GET_BIT() : OK\n");
+}
+
+//=========================================================
+void test_macro_SET_BIT(void) {
+
+	unsigned int val = 0;
+	int ordre = 0;
+
+	for (int i = 0; i < 30; i++)
+	{
+		val = valeur_aleatoire();
+		ordre = randi(32);
+
+		assert(set_bit(val, ordre) == SET_BIT(val, ordre));
+	}
+	printf("      macro_SET_BIT() : OK\n");
+}
+
+//=========================================================
+void test_macro_CLEAR_BIT(void) 
+{
+	
+	unsigned int val = 0;
+	int ordre = 0;
+
+	for (int i = 0; i < 30; i++)
+	{
+		val = valeur_aleatoire();
+		ordre = randi(32);
+
+		assert(clear_bit(val, ordre) == CLEAR_BIT(val, ordre));
+	}
+	printf("    macro_CLEAR_BIT() : OK\n");
+}
+
+//=========================================================
+void test_macro_FLIP_BIT(void) 
+{
+	unsigned int val = 0;
+	int ordre = 0;
+
+	for (int i = 0; i < 30; i++)
+	{
+		val = valeur_aleatoire();
+		ordre = randi(32);
+
+		assert(flip_bit(val, ordre) == FLIP_BIT(val, ordre));
+	}
+	printf("     macro_FLIP_BIT() : OK\n");
 }

@@ -24,12 +24,18 @@
     <ClCompile Include="Fonctions_bits.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Chrono.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aleatoire.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Fonctions_bits.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Chrono.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
