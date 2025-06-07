@@ -40,8 +40,8 @@
 
 //=========================================================
 /*
-	Verifie qu'il n'y a pas 3 bits Ã  1 de suite
-	PARAMETRE : etat_gen, nombre binaire a vÃ©rifier
+	Verifie qu'il n'y a pas 3 bits à  1 de suite
+	PARAMETRE : etat_gen, nombre binaire a vérifier
 	RETOUR : 1 si tout est beau, 0 si 3 bits ou plus se suivent
 */
 int principe1(unsigned int etat_gen);
@@ -51,10 +51,10 @@ void assert_principe1(void);
 
 //=========================================================
 /*
-	Trouve les endroits oÃ¹ un gÃ©nÃ©rateur peut Ãªtre activÃ©
-	PARAMETRE : etat_gen, nombre binaire a vÃ©rifier
-	RETOUR : nombre binaire oÃ¹ un 1 reprÃ©sente les endroits ou
-			 un gÃ©nÃ©rateur peut Ãªtre activÃ©
+	Trouve les endroits où un générateur peut être activé
+	PARAMETRE : etat_gen, nombre binaire a vérifier
+	RETOUR : nombre binaire où un 1 représente les endroits ou
+			 un générateur peut être activé
 */
 unsigned int get_bits_dispo(unsigned int etat_gen);
 
@@ -63,8 +63,8 @@ void test_get_bits_dispo(void);
 
 //=========================================================
 /*
-	Choisi alÃ©atoirement un endroit oÃ¹ activer un gÃ©nÃ©rateur
-	PARAMETRE : bit_possible, chaine de bit ou un 1 reprÃ©sente
+	Choisi aléatoirement un endroit où activer un générateur
+	PARAMETRE : bit_possible, chaine de bit ou un 1 représente
 				là  où un générateur peut être activé
 	RETOUR : position du bit choisi (entre 0 et N-1)
 */
@@ -75,25 +75,26 @@ void assert_choix_alea_bit1(void);
 
 //=========================================================
 /*
-	Initialisation des gÃ©nÃ©rateur : active alÃ©atoirement K gÃ©nÃ©rateurs
+	Initialisation des générateur : active aléatoirement K générateurs
 	PARAMETRE : void
-	RETOUR : N bits avec K gÃ©nÃ©rateurs activÃ©s
+	RETOUR : N bits avec K générateurs activés
 */
 unsigned int init_gen(void);
 
 //=========================================================
 /*
-	Permutation de deux gÃ©nÃ©rateur, en active alÃ©atoirement un et en dÃ©sactive un autre
-	PARAMETRE : Ã©tat des gÃ©nÃ©rateurs
-	RETOUR : Ã©tat des gÃ©nÃ©rateur aprÃ¨s la permutation
+	Permutation de deux générateur, en active aléatoirement un et en désactive 
+	un autre
+	PARAMETRE : état des générateurs
+	RETOUR : état des générateur après la permutation
 */
 unsigned int permuter_bits(unsigned int etat_gen);
 
 //=========================================================
 /*
-	Valider qu'il y a exactement K gÃ©nÃ©rateur d'activÃ©
-	PARAMETRE : Ã©tat des gÃ©nÃ©rateurs
-	RETOUR : 1 si tout est beau, 0 s'il y a un problÃ¨me
+	Valider qu'il y a exactement K générateur d'activé
+	PARAMETRE : état des générateurs
+	RETOUR : 1 si tout est beau, 0 s'il y a un problème
 */
 int valider_etatK(unsigned int etat_gen);
 
@@ -102,9 +103,9 @@ void assert_valider_etatK(void);
 
 //=========================================================
 /*
-	Valider qu'il n'y a pas de gÃ©nÃ©rateur brisÃ© qui sont activÃ©
-	PARAMETRE : Ã©tat des gÃ©nÃ©rateurs, Ã©tat des bris
-	RETOUR : 1 si tout est beau, 0 s'il y a un problÃ¨me
+	Valider qu'il n'y a pas de générateur brisé qui sont activé
+	PARAMETRE : état des générateurs, état des bris
+	RETOUR : 1 si tout est beau, 0 s'il y a un problème
 */
 int valider_bris(unsigned int etat_gen, unsigned int etat_bris);
 
@@ -113,35 +114,35 @@ void assert_valider_bris(void);
 
 //=========================================================
 /*
-	Trouve les endroits oÃ¹ un gÃ©nÃ©rateur peut Ãªtre activÃ©, en considÃ©rant les bris
-	PARAMETRE : etat_gen, nombre binaire a vÃ©rifier
-				etat_bris, endroit oÃ¹ les gÃ©nÃ©rateur sont brisÃ©s
-	RETOUR : nombre binaire oÃ¹ un 1 reprÃ©sente les endroits oÃ¹ un 
-			 gÃ©nÃ©rateur peut Ãªtre activÃ©
+	Trouve les endroits où un générateur peut être activé, en considérant les bris
+	PARAMETRE : etat_gen, nombre binaire a vérifier
+				etat_bris, endroit où les générateur sont brisés
+	RETOUR : nombre binaire où un 1 représente les endroits où un 
+			 générateur peut être activé
 */
 unsigned int get_bits_dispo2(unsigned int etat_gen, unsigned int etat_bris);
 
 //=========================================================
 /*
-	GÃ©nÃ¨re alÃ©atoirement des bris de gÃ©nÃ©rateur
-	PARAMETRE : etat_gen, nombre binaire a vÃ©rifier
-				etat_bris, endroit oÃ¹ les gÃ©nÃ©rateur sont brisÃ©s
-	RETOUR : 1 si tout est beau, 0 si il y a un Ã©chec
+	Génère aléatoirement des bris de générateur
+	PARAMETRE : etat_gen, nombre binaire a vérifier
+				etat_bris, endroit où les générateur sont brisés
+	RETOUR : 1 si tout est beau, 0 si il y a un échec
 */
 int gestion_bris(unsigned int *etat_gen, unsigned int *etat_bris);
 
 //=========================================================
 /*
-	Permutation de deux gÃ©nÃ©rateur, en prennant en compte les gÃ©nÃ©rateurs brisÃ©s
-	PARAMETRE : Ã©tat des gÃ©nÃ©rateurs, Ã©tat des bris
-	RETOUR : Ã©tat des gÃ©nÃ©rateur aprÃ¨s la permutation
+	Permutation de deux générateur, en prennant en compte les générateurs brisés
+	PARAMETRE : état des générateurs, état des bris
+	RETOUR : état des générateur après la permutation
 */
 unsigned int permuter_bits2(unsigned int *etat_gen, unsigned int etat_bris);
 
 //=========================================================
 /*
-	Fonction de traitement des donnÃ©es dans le tableau
-	PARAMETRE : tableau contenant les essais, le nombre de tests Ã  faire,
+	Fonction de traitement des données dans le tableau
+	PARAMETRE : tableau contenant les essais, le nombre de tests à  faire,
 				la valeur minimale et la valeur maximale
 	RETOUR : moyenne des test totaux
 */
@@ -173,7 +174,7 @@ int main(void) {
 	int i = 0;
 
 
-	etat_gen_ions = init_gen(); // Initialise les gÃ©nÃ©rateurs
+	etat_gen_ions = init_gen(); // Initialise les générateurs
 
 	printf("N : %d\nK : %d\n%s", N, K,
 		" Bits genere avec init_gen() : ");
@@ -204,7 +205,7 @@ int main(void)
 	int tab_essais[NB_TESTS]; 
 	int min, max;
 
-	// CrÃ©ation de variables pour la boucle principale
+	// Création de variables pour la boucle principale
 	unsigned int etat_gen_ions; 
 	unsigned int bris_gen_ions;
 	int nb_passages = 0;
@@ -237,7 +238,7 @@ int main(void)
 				break;
 
 
-			// Affiche des donnÃ©es tous les 100 itÃ©rations
+			// Affiche des données tous les 100 itérations
 			/*if (nb_passages % 100 == 0) {
 				printf("%s%d\n%s",
 					"Nombre d'iterations  : ", nb_passages,
@@ -266,7 +267,7 @@ int main(void)
 
 		}
 
-		// Affiche le nombre d'itÃ©ration
+		// Affiche le nombre d'itération
 		/*printf("\n%s%d\n%s", "Nombre d'iteration   : ", nb_passages,
 			"Etat des generateurs : ");
 		voir_bits(etat_gen_ions);
@@ -318,19 +319,19 @@ int main(void)
 
 
 //=========================================================//
-//		       DÃFINITIONS DES FONCTIONS			       //
+//		       DàFINITIONS DES FONCTIONS			       //
 //=========================================================//
 
 //=========================================================
 /*
-	VÃ©rifie qu'il n'y a pas 3 bits Ã  1 de suite
-	PARAMETRE : etat_gen, nombre binaire a vÃ©rifier
+	Vérifie qu'il n'y a pas 3 bits à  1 de suite
+	PARAMETRE : etat_gen, nombre binaire a vérifier
 	RETOUR : 1 si tout est beau, 0 si 3 bits ou plus se suivent
 */
 int principe1(unsigned int etat_gen) {
 	int test = 1;
 
-	// VÃ©rifie trois bits cÃ´te Ã  cÃ´te
+	// Vérifie trois bits côte à côte
 	for (int i = 1; i < N - 1; i += 1) {
 
 		#if(MODE_MACRO)
@@ -356,16 +357,16 @@ int principe1(unsigned int etat_gen) {
 
 //=========================================================
 /*
-	Trouve les endroits oÃ¹ un gÃ©nÃ©rateur peut Ãªtre activÃ©
-	PARAMETRE : etat_gen, nombre binaire a vÃ©rifier
-	RETOUR : nombre binaire oÃ¹ un 1 reprÃ©sente les endroits ou
-			 un gÃ©nÃ©rateur peut Ãªtre activÃ©
+	Trouve les endroits où un générateur peut être activé
+	PARAMETRE : etat_gen, nombre binaire a vérifier
+	RETOUR : nombre binaire où un 1 représente les endroits ou
+			 un générateur peut être activé
 */
 unsigned int get_bits_dispo(unsigned int etat_gen) {
 	unsigned int bits_possible = 0;
 	unsigned int bit = 0;
 
-	// test chaque bit pour voir si le bit en question peut Ãªtre mis Ã  1
+	// test chaque bit pour voir si le bit en question peut être mis à  1
 	for (int i = 0; i < N; i += 1) {
 
 		#if(MODE_MACRO)
@@ -380,11 +381,11 @@ unsigned int get_bits_dispo(unsigned int etat_gen) {
 			#if(MODE_MACRO)
 				etat_gen = SET_BIT(etat_gen, i); //met le bit à 1
 			#else
-				etat_gen = set_bit(etat_gen, i); //met le bit Ã  1
+				etat_gen = set_bit(etat_gen, i); //met le bit à  1
 			#endif
 			
 
-			// Test si la rÃ¨gle du principe 1 est respectÃ©e
+			// Test si la règle du principe 1 est respectée
 			if (principe1(etat_gen)) {
 
 				#if(MODE_MACRO)
@@ -399,9 +400,9 @@ unsigned int get_bits_dispo(unsigned int etat_gen) {
 			}
 
 			#if(MODE_MACRO)
-				etat_gen = CLEAR_BIT(etat_gen, i); // remet le bit Ã  0
+				etat_gen = CLEAR_BIT(etat_gen, i); // remet le bit à  0
 			#else
-				etat_gen = clear_bit(etat_gen, i); // remet le bit Ã  0
+				etat_gen = clear_bit(etat_gen, i); // remet le bit à  0
 			#endif
 			
 		}
@@ -413,9 +414,9 @@ unsigned int get_bits_dispo(unsigned int etat_gen) {
 
 //=========================================================
 /*
-	Choisi alÃ©atoirement un endroit oÃ¹ activer un gÃ©nÃ©rateur
-	PARAMETRE : bit_possible, chaine de bit ou un 1 reprÃ©sente
-				lÃ  oÃ¹ un gÃ©nÃ©rateur peut Ãªtre activÃ©
+	Choisi aléatoirement un endroit où activer un générateur
+	PARAMETRE : bit_possible, chaine de bit ou un 1 représente
+				là  où un générateur peut être activé
 	RETOUR : position du bit choisi (entre 0 et N-1)
 */
 int choix_alea_bit1(unsigned int bit_possible) {
@@ -428,7 +429,7 @@ int choix_alea_bit1(unsigned int bit_possible) {
 		return -1;
 	}
 	else {
-		// Choisi un bit alÃ©atoire dans les bits possibles
+		// Choisi un bit aléatoire dans les bits possibles
 		while (bit == 0) {
 			ordre = randi(N);
 
@@ -446,9 +447,9 @@ int choix_alea_bit1(unsigned int bit_possible) {
 
 //=========================================================
 /*
-	Initialisation des gÃ©nÃ©rateur : active alÃ©atoirement K gÃ©nÃ©rateurs
+	Initialisation des générateur : active aléatoirement K générateurs
 	PARAMETRE : void
-	RETOUR : N bits avec K gÃ©nÃ©rateurs activÃ©s
+	RETOUR : N bits avec K générateurs activés
 */
 unsigned int init_gen(void) {
 
@@ -456,13 +457,13 @@ unsigned int init_gen(void) {
 	unsigned int bits_dispo = 0; // Variable temporaire pour les bits dispo
 	int ordre = 0; // Variable temporaire pour contenir l'ordre d'un bit
 
-	// Choisi K bits alÃ©atoirement Ã  activer tout en respectant le principe 1
+	// Choisi K bits aléatoirement à  activer tout en respectant le principe 1
 	for (int i = 0; i < K; i++) {
 		bits_dispo = get_bits_dispo(config_initiale);
 		ordre = choix_alea_bit1(bits_dispo);
 		//printf("%d ", ordre);
 
-		//VÃ©rifie que l'ordre est bon
+		//Vérifie que l'ordre est bon
 		assert(ordre < N && ordre >= 0);
 
 		#if(MODE_MACRO)
@@ -481,25 +482,25 @@ unsigned int init_gen(void) {
 
 //=========================================================
 /*
-	Permutation de deux gÃ©nÃ©rateur, active alÃ©atoirement 1 et en dÃ©sactive un autre
-	PARAMETRE : Ã©tat des gÃ©nÃ©rateurs
-	RETOUR : Ã©tat des gÃ©nÃ©rateur aprÃ¨s la permutation
+	Permutation de deux générateur, active aléatoirement 1 et en désactive un autre
+	PARAMETRE : état des générateurs
+	RETOUR : état des générateur après la permutation
 */
 unsigned int permuter_bits(unsigned int etat_gen) {
 
 	int ordre_a_eteindre = 0;
 	int ordre_a_allumer = 0;
 
-	//choisi alÃ©atoirement un bit Ã  Ã©teindre
+	//choisi aléatoirement un bit à  éteindre
 	ordre_a_eteindre = choix_alea_bit1(etat_gen);
-	//Trouve les bits disponible et en choisi un alÃ©atoirement pour l'allumer
+	//Trouve les bits disponible et en choisi un aléatoirement pour l'allumer
 	ordre_a_allumer = choix_alea_bit1(get_bits_dispo(etat_gen));
 
-	//VÃ©rification des ordres
+	//Vérification des ordres
 	assert(ordre_a_allumer < N && ordre_a_allumer >= 0);
 	assert(ordre_a_eteindre < N && ordre_a_eteindre >= 0);
 
-	//Ã©change les valeurs des 2 bits
+	//échange les valeurs des 2 bits
 	#if(MODE_MACRO)
 		etat_gen = FLIP_BIT(etat_gen, ordre_a_eteindre);
 		etat_gen = FLIP_BIT(etat_gen, ordre_a_allumer);
@@ -517,19 +518,19 @@ unsigned int permuter_bits(unsigned int etat_gen) {
 
 //=========================================================
 /*
-	Valider qu'il y a exactement K gÃ©nÃ©rateur d'activÃ©
-	PARAMETRE : Ã©tat des gÃ©nÃ©rateurs
-	RETOUR : 1 si tout est beau, 0 s'il y a un problÃ¨me
+	Valider qu'il y a exactement K générateur d'activé
+	PARAMETRE : état des générateurs
+	RETOUR : 1 si tout est beau, 0 s'il y a un problème
 */
 int valider_etatK(unsigned int etat_gen) {
 	int compteur_de_1 = 0;
 	int bit = 0;
 
-	// VÃ©rifie le principe 1
+	// Vérifie le principe 1
 	if (principe1(etat_gen) == 0) 
 		return 0;
 	
-	// Compte le nombre de gÃ©nÃ©rateur actif
+	// Compte le nombre de générateur actif
 	for (int i = 0; i < N; i++) {
 
 		#if(MODE_MACRO)
@@ -542,13 +543,13 @@ int valider_etatK(unsigned int etat_gen) {
 			compteur_de_1 += 1;
 		}
 	}
-	//printf("Bit compte : %d\n", compteur_de_1); // Affiche le nbr de bit comptÃ©
+	//printf("Bit compte : %d\n", compteur_de_1); // Affiche le nbr de bit compté
 
-	// VÃ©rifie si compteur == K
+	// Vérifie si compteur == K
 	if (compteur_de_1 != K) 
 		return 0;
 	
-	// VÃ©rifie les bit entre 31 et N
+	// Vérifie les bit entre 31 et N
 	for (int i = 31; i >= N; i--) {
 
 		#if(MODE_MACRO)
@@ -569,12 +570,12 @@ int valider_etatK(unsigned int etat_gen) {
 
 //=========================================================
 /*
-	Valider qu'il n'y a pas de gÃ©nÃ©rateur brisÃ© qui sont activÃ©
-	PARAMETRE : Ã©tat des gÃ©nÃ©rateurs, Ã©tat des bris
-	RETOUR : 1 si tout est beau, 0 s'il y a un problÃ¨me
+	Valider qu'il n'y a pas de générateur brisé qui sont activé
+	PARAMETRE : état des générateurs, état des bris
+	RETOUR : 1 si tout est beau, 0 s'il y a un problème
 */
 int valider_bris(unsigned int etat_gen, unsigned int etat_bris) {
-	// VÃ©rifie si les 2 variables ont des bits commun
+	// Vérifie si les 2 variables ont des bits commun
 	if ((etat_bris & etat_gen) == 0) {
 		return 1;
 	}
@@ -585,18 +586,18 @@ int valider_bris(unsigned int etat_gen, unsigned int etat_bris) {
 
 //=========================================================
 /*
-	Trouve les endroits oÃ¹ un gÃ©nÃ©rateur peut Ãªtre activÃ©, en considÃ©rant les bris
-	PARAMETRE : etat_gen, nombre binaire a vÃ©rifier
-				etat_bris, endroit oÃ¹ les gÃ©nÃ©rateur sont brisÃ©s
-	RETOUR : nombre binaire oÃ¹ un 1 reprÃ©sente les endroits oÃ¹ un
-			 gÃ©nÃ©rateur peut Ãªtre activÃ©
+	Trouve les endroits où un générateur peut être activé, en considérant les bris
+	PARAMETRE : etat_gen, nombre binaire a vérifier
+				etat_bris, endroit où les générateur sont brisés
+	RETOUR : nombre binaire où un 1 représente les endroits où un
+			 générateur peut être activé
 */
 unsigned int get_bits_dispo2(unsigned int etat_gen, unsigned int etat_bris) {
 	unsigned int bits_possible = 0;
 	unsigned int bit1 = 0;
 	unsigned int bit2 = 0;
 
-	// test chaque bit pour voir si le bit en question peut Ãªtre mis Ã  1
+	// test chaque bit pour voir si le bit en question peut être mis à  1
 	for (int i = 0; i < N; i += 1) {
 
 		#if(MODE_MACRO)
@@ -613,11 +614,11 @@ unsigned int get_bits_dispo2(unsigned int etat_gen, unsigned int etat_bris) {
 			#if(MODE_MACRO)
 				etat_gen = SET_BIT(etat_gen, i); //met le bit à 1
 			#else
-				etat_gen = set_bit(etat_gen, i); //met le bit Ã  1
+				etat_gen = set_bit(etat_gen, i); //met le bit à  1
 			#endif
 			
 
-			// Test si la rÃ¨gle du principe 1 est respectÃ©e
+			// Test si la règle du principe 1 est respectée
 			if (principe1(etat_gen)) {
 
 				#if(MODE_MACRO)
@@ -628,9 +629,9 @@ unsigned int get_bits_dispo2(unsigned int etat_gen, unsigned int etat_bris) {
 			}
 
 			#if(MODE_MACRO)
-				etat_gen = CLEAR_BIT(etat_gen, i); // remet le bit Ã  0
+				etat_gen = CLEAR_BIT(etat_gen, i); // remet le bit à  0
 			#else
-				etat_gen = clear_bit(etat_gen, i); // remet le bit Ã  0
+				etat_gen = clear_bit(etat_gen, i); // remet le bit à  0
 			#endif
 			
 		}
@@ -641,10 +642,10 @@ unsigned int get_bits_dispo2(unsigned int etat_gen, unsigned int etat_bris) {
 
 //=========================================================
 /*
-	GÃ©nÃ¨re alÃ©atoirement des bris de gÃ©nÃ©rateur
+	Génère aléatoirement des bris de générateur
 	PARAMETRE : etat_gen, nombre binaire à vérifier
-				etat_bris, endroit oÃ¹ les gÃ©nÃ©rateur sont brisÃ©s
-	RETOUR : 1 si tout est beau, 0 si il y a un Ã©chec
+				etat_bris, endroit où les générateur sont brisés
+	RETOUR : 1 si tout est beau, 0 si il y a un échec
 */
 int gestion_bris(unsigned int *etat_gen, unsigned int *etat_bris) {
 	
@@ -663,9 +664,9 @@ int gestion_bris(unsigned int *etat_gen, unsigned int *etat_bris) {
 			bit2 = get_bit(*etat_bris, i);
 		#endif
 
-		// Si le gÃ©nÃ©rateur est activÃ© et qu'il n'est pas brisÃ©
+		// Si le générateur est activé et qu'il n'est pas brisé
 		if (bit1 == 1 && bit2 == 0) {
-			// ProbabilitÃ© de bris
+			// Probabilité de bris
 			if (randf() < PROB_BRIS) {
 
 				#if(MODE_MACRO)
@@ -676,7 +677,7 @@ int gestion_bris(unsigned int *etat_gen, unsigned int *etat_bris) {
 					*etat_bris = set_bit(*etat_bris, i);
 				#endif
 				
-				// Active un bit alÃ©atoire
+				// Active un bit aléatoire
 				ordre = choix_alea_bit1(get_bits_dispo2(*etat_gen, *etat_bris));
 				if (ordre < 0 || ordre >= N)
 					return 0;
@@ -698,21 +699,21 @@ int gestion_bris(unsigned int *etat_gen, unsigned int *etat_bris) {
 
 //=========================================================
 /*
-	Permutation de deux gÃ©nÃ©rateur, en prennant en compte les gÃ©nÃ©rateurs brisÃ©s
-	PARAMETRE : Ã©tat des gÃ©nÃ©rateurs, Ã©tat des bris
-	RETOUR : Ã©tat des gÃ©nÃ©rateur aprÃ¨s la permutation
+	Permutation de deux générateur, en prennant en compte les générateurs brisés
+	PARAMETRE : état des générateurs, état des bris
+	RETOUR : état des générateur après la permutation
 */
 unsigned int permuter_bits2(unsigned int *etat_gen, unsigned int etat_bris) {
 
 	int ordre_a_eteindre = 0;
 	int ordre_a_allumer = 0;
 
-	//choisi alÃ©atoirement un bit Ã  Ã©teindre
+	//choisi aléatoirement un bit à  éteindre
 	ordre_a_eteindre = choix_alea_bit1(*etat_gen);
-	//Trouve les bits disponible et en choisi un alÃ©atoirement pour l'allumer
+	//Trouve les bits disponible et en choisi un aléatoirement pour l'allumer
 	ordre_a_allumer = choix_alea_bit1(get_bits_dispo2(*etat_gen, etat_bris));
 
-	//VÃ©rification des ordres
+	//Vérification des ordres
 	if (ordre_a_allumer >= N || ordre_a_allumer < 0) {
 		return 0;
 	}
@@ -721,7 +722,7 @@ unsigned int permuter_bits2(unsigned int *etat_gen, unsigned int etat_bris) {
 	}
 
 
-	//Ã©change les valeurs des 2 bits
+	//échange les valeurs des 2 bits
 	#if(MODE_MACRO)
 		*etat_gen = FLIP_BIT(*etat_gen, ordre_a_eteindre);
 		*etat_gen = FLIP_BIT(*etat_gen, ordre_a_allumer);
@@ -745,8 +746,8 @@ unsigned int permuter_bits2(unsigned int *etat_gen, unsigned int etat_bris) {
 
 //=========================================================
 /*
-	Fonction de traitement des donnÃ©es dans le tableau
-	PARAMETRE : tableau contenant les essais, le nombre de tests Ã  faire,
+	Fonction de traitement des données dans le tableau
+	PARAMETRE : tableau contenant les essais, le nombre de tests à  faire,
 				la valeur minimale et la valeur maximale
 	RETOUR : moyenne des test totaux
 */
@@ -771,7 +772,7 @@ double moyenne_tests(int tab_essais[], int nb_tests, int* min, int* max)
 //=========================================================
 void assert_principe1(void) {
 
-	// Test plusiseurs cas diffÃ©rent pour s'assurer que tout fonctionne bien
+	// Test plusiseurs cas différent pour s'assurer que tout fonctionne bien
 	unsigned int bin = 42;
 	assert(principe1(bin) == 1);
 
@@ -821,7 +822,7 @@ void assert_choix_alea_bit1(void) {
 	int resultat = 0;
 	const int nbr_test = 20;
 
-	// test la sÃ©lection alÃ©atoire 20 fois
+	// test la sélection aléatoire 20 fois
 	for (int i = 0; i < nbr_test; i++) {
 		resultat = choix_alea_bit1(0b000110010010010110);
 		//printf("%d\n", test);
