@@ -1,10 +1,6 @@
-﻿//=========================================================//
-// 	TP1_P2.c : DeuxiÃ¨me partie du TP1                      //
-//  Vincent G.											   //
-//=========================================================//
-
+﻿
 /********************************************************************/
-/* Fichier   : TP1 PARTIE 1                                         */
+/* Fichier   : TP1 PARTIE 2                                         */
 /* Noms		 : Renaud Lamonde et Vincent Goulet						*/
 /* Date  de crÃ©ation : 12 mai 2025									*/
 /* Description :  Ce fichier contient les fonctions et leurs tests	*/
