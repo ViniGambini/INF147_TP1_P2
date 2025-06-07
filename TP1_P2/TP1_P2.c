@@ -26,9 +26,9 @@
 
 #define MAX_ITER_P1 100   // Iteration max de la partie 1
 #define MAX_ITER_P2 10000 // Iteration maximum pour la partie 2
+#define NB_TESTS 200      // Nombre de test effectuer pour obtenir la moyenne d'itération
 #define PROB_BRIS 0.025   // Probabilité de bris entre 0.0 et 1.0
-#define PERIODE_REPARATION 28 // Répare les générateur tous les X itérations
-#define NB_TESTS 100      // Nombre de test effectuer pour obtenir la moyenne d'itération
+#define PERIODE_REPARATION 29 // Répare les générateur tous les X itérations
 
 #define N 30 //18 <= N <= 32
 #define K 11 //0,28 * N <= K <= 0,48 * N
