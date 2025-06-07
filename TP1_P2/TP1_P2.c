@@ -2,14 +2,14 @@
 /********************************************************************/
 /* Fichier   : TP1 PARTIE 2                                         */
 /* Noms		 : Renaud Lamonde et Vincent Goulet						*/
-/* Date  de crÃ©ation : 12 mai 2025									*/
+/* Date  de creation : 12 mai 2025									*/
 /* Description :  Ce fichier contient les fonctions et leurs tests	*/
-/* unitaires permettant de vÃ©rifier les 6 principes imposÃ©s par	*/
-/* l'Ã©quipe d'ingÃ©nieurs de L'AEAC. 								*/
+/* unitaires permettant de verifier les 6 principes imposes par	    */
+/* l'equipe d'ingenieurs de L'AEAC. 								*/
 /********************************************************************/
 
 
-#include <assert.h>
+#include <assert.h> 
 #include "Aleatoire.h"
 #include "Fonctions_bits.h"
 #include "Chrono.h"
@@ -24,8 +24,8 @@
 #define MODE_MACRO 1    // 1 = active les macros, 0 = active les fonctions
 #define MODE_AFFICHE 0  // 1 = active l'affichage calculant la moyenne de 100 iterations 
 
-#define MAX_ITER_P1 100   // Itération max de la partie 1
-#define MAX_ITER_P2 10000 // ItÃ©ration maximum pour la partie 2
+#define MAX_ITER_P1 100   // Iteration max de la partie 1
+#define MAX_ITER_P2 10000 // Iteration maximum pour la partie 2
 #define PROB_BRIS 0.025   // Probabilité de bris entre 0.0 et 1.0
 #define PERIODE_REPARATION 28 // Répare les générateur tous les X itérations
 #define NB_TESTS 100      // Nombre de test effectuer pour obtenir la moyenne d'itération
@@ -40,7 +40,7 @@
 
 //=========================================================
 /*
-	VÃ©rifie qu'il n'y a pas 3 bits Ã  1 de suite
+	Verifie qu'il n'y a pas 3 bits Ã  1 de suite
 	PARAMETRE : etat_gen, nombre binaire a vÃ©rifier
 	RETOUR : 1 si tout est beau, 0 si 3 bits ou plus se suivent
 */
