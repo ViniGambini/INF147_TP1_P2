@@ -228,14 +228,13 @@ int main(void)
 		etat_gen_ions = init_gen();
 		bris_gen_ions = 0;
 
-		for (nb_tests = 0; nb_tests < NB_TESTS; nb_tests++) {
 		// Boucle principale
 		for (nb_passages = 0; nb_passages < MAX_ITER_P2; nb_passages++) {
 
 			// Permutation des bits
 			if (permuter_bits2(&etat_gen_ions, bris_gen_ions) == 0)
 				break;
-			}
+			
 
 			// Gestion des bris
 			if (gestion_bris(&etat_gen_ions, &bris_gen_ions) == 0)
@@ -290,7 +289,7 @@ int main(void)
 		#endif
 	}
 
-	// ArrÃªt et lecture du temps du chronomÃ¨tre
+	// Arret et lecture du temps du chronometre
 	arreter_chrono(chrono);
 	temps = lire_chrono(chrono);
 	detruire_chrono(&chrono);
