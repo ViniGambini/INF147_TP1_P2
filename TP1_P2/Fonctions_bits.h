@@ -36,9 +36,6 @@ int get_bit(unsigned int nombre, int ordre);
 // Macro de la fonction get_bit()
 #define GET_BIT(nombre, ordre) (((nombre) & (1 << (ordre))) != 0)
 
-//c'est ici que viendra la déclaration de son test unitaire
-void test_macro_GET_BIT(void);
-
 //=========================================================
 /*
 	Donne la valeur du nombre avec le bit d'ordre spécifié mis à 1
@@ -53,9 +50,6 @@ unsigned int set_bit(unsigned int nombre, int ordre);
 
 // Macro de la fonction set_bit()
 #define SET_BIT(nombre, ordre) (((nombre) | (1 << (ordre))))
-
-//c'est ici que viendra la déclaration de son test unitaire
-void test_macro_SET_BIT(void);
 
 //=========================================================
 /*
